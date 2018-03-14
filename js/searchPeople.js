@@ -65,7 +65,6 @@ $(document).ready(function(){
 			selector: 'td:first-child'
 		}
 	})
-	.sort( [ 0, 'asc' ] )
 	.on( 'draw.dt', function() {
 		mapBtns();
 	})		
