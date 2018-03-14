@@ -9,6 +9,25 @@ $(window).bind("load", function () {
 
 function mapPrintResults(){
 	$("[name=printResult]").unbind('click').click(function(){
-		window.open(jsLIB.rootDir+'report/printResult.php?id='+$(this).attr('id-teste'),'_blank','top=50,left=50,height=750,width=550,menubar=no,status=no,titlebar=no',true);
+		var testeID = $(this).attr('id-teste');
+
+		BootstrapDialog.show({
+			title: 'Visualizar PDF',
+			message: $(`<object style="width:100%;" data="${jsLIB.rootDir}report/printResult.php?id=${testeID}" type="application/pdf"><p>Seu navegador não tem um plugin pra PDF</p></object>`),
+			type: BootstrapDialog.TYPE_DEFAULT,
+			size: BootstrapDialog.SIZE_WIDE,
+			draggable: false,
+			closable: false,
+			closeByBackdrop: false,
+			closeByKeyboard: false,
+			buttons: [{
+				label: 'Fechar',
+				cssClass: 'btn-primary',
+				action: function(dialogRef){
+					dialogRef.close();
+				}
+			}]	
+		});
+		//window.open(jsLIB.rootDir+'report/printResult.php?id='+$(this).attr('id-teste'),'_blank','top=50,left=50,height=750,width=550,menubar=no,status=no,titlebar=no',true);
 	});
 }
