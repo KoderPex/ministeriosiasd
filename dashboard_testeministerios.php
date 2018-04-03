@@ -10,7 +10,7 @@
 	$testes = fVerificaTestes( $_SESSION['PESSOA']['id'] );
 
 	//SE EXISTE TESTE DE MINISTERIOS PENDENTE
-	if ( $pend["minis"]["nr_rsp"] > 0 ):
+	if ( $testes["minis"]["nr_rsp"] > 0 ):
 	?>
 	<div class="col-xs-12 col-md-12">
 		<a id="btnFinishMinisterios" href="javascript:void(0);" class="btn btn-labeled btn-palegreen">
