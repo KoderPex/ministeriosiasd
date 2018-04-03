@@ -8,11 +8,11 @@ function getDetailGift( $parameters ) {
 	$arr = array();
 	
 	fConnDB();
-	$result = $GLOBALS['conn']->Execute("SELECT * FROM CON_CD_DONS WHERE cd = ? ", array( $parameters["cd"] ) );
+	$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_DONS WHERE id = ? ", array( $parameters["id"] ) );
 	foreach ($result as $rsitem):
 		$arr = array( 
-			"ds_dom" => utf8_encode($rsitem['ds_dom']),
 			"ds" => utf8_encode($rsitem['ds']),
+			"ds_explain" => utf8_encode($rsitem['ds_explain']),
 			"ds_ref_biblica" => utf8_encode($rsitem['ds_ref_biblica']),
 			"ds_tarefas" => utf8_encode($rsitem['ds_tarefas'])
 		);
@@ -196,15 +196,15 @@ function finalizarDonsPessoa( $pessoaID ){
 		$id = $GLOBALS['conn']->Insert_ID();
 		
 		//INSERE ITENS DO TESTE	
-		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, cd ) 
-			SELECT $id AS id_hs_resultado, res.ds_item, res.nr_item, res.cd
-			FROM (SELECT t.ds_dom AS ds_item, t.cd, SUM(c.nr_peso) AS nr_item
+		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
+			SELECT $id AS id_hs_resultado, res.ds_item, res.nr_item, res.id
+			FROM (SELECT t.ds AS ds_item, t.id, SUM(c.nr_peso) AS nr_item
 				FROM RP_DONS r 
 			  INNER JOIN CON_QS_DONS q ON (r.id_qs_dons = q.id)
 			  INNER JOIN CON_CD_DONS t ON (t.id = q.id_cd_dons)
 			  INNER JOIN CD_DONS_RESP c ON (r.id_cd_dons_resp = c.id)
 			       WHERE r.id_cd_pessoa = ?
-			    GROUP BY t.ds_dom, t.cd) res", 
+			    GROUP BY t.ds, t.cd) res", 
 			array( $pessoaID ) );
 		
 		//APAGA RESPOSTAS	
@@ -294,30 +294,6 @@ function templateMinisteriosDirect($id,$cd,$ds,$i,$opt){
 	</tr>";
 }
 
-function areasMinisterios(){
-	session_start();
-	return areasMinisteriosPessoa( $_SESSION['PESSOA']['id'] );
-}
-
-function areasMinisteriosPessoa( $pessoaID ){
-	$arr = array();
-
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
-	SELECT
-		g.id,
-		g.ds
-	FROM CD_MINISTERIOS_GP g
-	ORDER BY g.ds" );
-	foreach ($result as $rsitem):
-		$arr[] = array( 
-			"id" => $rsitem['id'],
-			"ds" => utf8_encode($rsitem['ds'])
-		);
-	endforeach;
-	return array( "result" => fRetornaTesteMinisteriosQuantidades( $pessoaID ), "questoes" => $arr );
-}
-
 function questoesMinisterios(){
 	session_start();
 	return questoesMinisteriosPessoa($_SESSION['PESSOA']['id']);
@@ -357,52 +333,6 @@ function questoesMinisteriosPessoa($pessoaID){
 		);
 	endforeach;
 	return array( "result" => fRetornaTesteMinisteriosQuantidades( $pessoaID ), "questoes" => $arr );
-}
-
-function getQuestoesArea( $parameters ){
-	session_start();
-	return getQuestoesAreaPessoa($_SESSION['PESSOA']['id']);
-}
-
-function getQuestoesAreaPessoa($pessoaID){
-	$area = $parameters["area"];
-	$tabindex = 0;
-	
-	$or = "<div class=\"panel-body\">";
-	$or .= "<div class=\"dd col-lg-12 col-sm-12 col-xs-12\">";
-	$or .= "<ol class=\"dd-list\">";
-	
-	$options = "<option value=\"\"></option>";
-	for ($i=1;$i<=10;$i++):
-		$options .= "<option value=\"$i\">$i</option>";
-	endfor;
-	
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
-	SELECT 
-		m.id,
-		m.cd,
-		m.ds,
-		r.nr_nota
-	FROM CON_CD_MINISTERIOS m
-	LEFT JOIN RP_MINISTERIOS r ON (r.id_cd_ministerios = m.id AND (r.id_cd_pessoa = ? OR r.id_cd_pessoa IS NULL))
-	WHERE m.id_cd_ministerios_gp = ?
-	ORDER BY m.ds
-	", array( $pessoaID, $area ) );
-	foreach ($result as $rsitem):
-		++$tabindex;
-		$id = $rsitem['id'];
-		$nr_nota = $rsitem['nr_nota'];
-		$ds = utf8_encode($rsitem['ds']);
-		$opt = str_replace( "<option value=\"$nr_nota\">", "<option value=\"$nr_nota\" selected>", $options );
-		$or .= "<li class=\"dd-item bordered-blue\">";
-		$or .= "<div class=\"dd-handle\">$ds&nbsp;<select class=\"input-sm\" name=\"questao\" id-questao=\"$id\" tabindex=\"$tabindex\">$opt</select></div>";
-		$or .= "</li>";
-	endforeach;
-	$or .= "</ol>";
-	$or .= "</div>";
-	$or .= "</div>";
-	return array( "result" => fRetornaTesteMinisteriosQuantidades( $pessoaID ), "questoes" => $or );
 }
 
 function setRsMinisteriosDirect( $parameters ){
@@ -468,8 +398,8 @@ function finalizarMinisteriosPessoa($pessoaID){
 		$id = $GLOBALS['conn']->Insert_ID();
 		
 		//INSERE ITENS DO TESTE	
-		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, cd ) 
-			SELECT $id AS id_hs_resultado, c.ds, m.nr_nota, c.cd
+		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
+			SELECT $id AS id_hs_resultado, c.ds, m.nr_nota, c.id
 			FROM RP_MINISTERIOS m
 			INNER JOIN CON_CD_MINISTERIOS c ON (c.id = m.id_cd_ministerios)
 			WHERE m.NR_NOTA IS NOT NULL

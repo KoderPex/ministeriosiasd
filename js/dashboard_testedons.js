@@ -38,14 +38,14 @@ $(document).ready(function(){
 	});
 	
 	$('[name=detalheDom]').click( function() {
-		jsLIB.ajaxCall( true, jsLIB.rootDir+"rules/ajaxTestes.php", { MethodName : 'getDetailGift', data : { cd : $(this).attr('cd-ref') } }, 
+		jsLIB.ajaxCall( true, jsLIB.rootDir+"rules/ajaxTestes.php", { MethodName : 'getDetailGift', data : { id : $(this).attr('id-ref') } }, 
 			function( data, jqxhr ){
 				if ( data.return == true ) {
 					BootstrapDialog.show({
-						title: data.result.ds_dom,
+						title: '<b>'+ data.result.ds +'</b>',
 						type: BootstrapDialog.TYPE_INFO,
 						message: function(dialogRef){
-					                var $desc = $("<div>"+data.result.ds+"</div>");
+					                var $desc = $("<div>"+data.result.ds_explain+"</div>");
 					                var $ref  = $("<div><b><u>Referências Bíblicas</u></b>:"+data.result.ds_ref_biblica+"</div>");
 					                var $task = $("<div><b><u>Tarefas</u></b>:"+data.result.ds_tarefas+"</div>");
 					                $desc.append($ref).append($task);

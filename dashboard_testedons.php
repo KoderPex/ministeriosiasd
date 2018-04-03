@@ -5,11 +5,11 @@
 <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/jquery-progress-bar.js"></script>
 <?php @require_once("rules/testes.php");?>
 <div class="row">
-	<?php 
-	$donsPend = fRetornaTesteDonsQuantidades( $_SESSION['PESSOA']['id'] );
+	<?php
+	$testes = fVerificaTestes( $_SESSION['PESSOA']['id'] );
 
 	//SE EXISTE TESTE DE DONS PENDENTE
-	if ( $donsPend["nr_rsp"] > 0 ):
+	if ( $testes["dons"]["nr_rsp"] > 0 ):
 	?>
 	<div class="col-xs-12 col-md-12 text-center"> 
 		<a id="btnFinishDons" href="javascript:void(0);" class="btn btn-labeled btn-palegreen">
@@ -72,7 +72,7 @@
 					$ordem = 0;
 					foreach (fQueryResult($result['id']) as $rsitem):
 						?>
-						<tr name="detalheDom" cd-ref="<?php echo $rsitem['cd'];?>" style="cursor:pointer">
+						<tr name="detalheDom" id-ref="<?php echo $rsitem['id_origem'];?>" style="cursor:pointer">
 						<td><?php echo ++$ordem;?>&ordm;</td>
 						<td><?php echo utf8_encode($rsitem['ds_item']);?></td>
 						<td><?php echo $rsitem['nr_item'];?></td>

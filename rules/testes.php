@@ -5,7 +5,7 @@ function fExistHistorico($id,$tp){
 
 function fQueryResult($id){
 	return $GLOBALS['conn']->Execute("
-	    SELECT p.cd_email, p.nm, r.dh_conclusao, r.dh_fim_validade, r.tp, i.cd, i.ds_item, i.nr_item
+	    SELECT p.cd_email, p.nm, r.dh_conclusao, r.dh_fim_validade, r.tp, i.id_origem, i.ds_item, i.nr_item
 	      FROM HS_RESULTADO r
 	INNER JOIN HS_RESULT_ITEM i ON (i.id_hs_resultado = r.id)
 	INNER JOIN CD_PESSOA p ON (p.id = r.id_cd_pessoa)
@@ -35,7 +35,7 @@ function fRetornaTesteMinisteriosQuantidades($id){
 
 	$qtds = $GLOBALS['conn']->Execute("
 	    SELECT 
-	    (SELECT COUNT(*) FROM CON_CD_MINISTERIOS) AS nr_qst, 
+	    (SELECT COUNT(*) FROM CD_MINISTERIOS) AS nr_qst, 
 	    (SELECT COUNT(*) FROM RP_MINISTERIOS WHERE id_cd_pessoa = ?) AS nr_rsp
 	", array($id) );
 	if (!$qtds->EOF):
