@@ -35,7 +35,7 @@ function fRetornaTesteMinisteriosQuantidades($id){
 
 	$qtds = $GLOBALS['conn']->Execute("
 	    SELECT 
-	    (SELECT COUNT(*) FROM CD_MINISTERIOS) AS nr_qst, 
+	    (SELECT COUNT(*) FROM CON_CD_MINISTERIOS) AS nr_qst, 
 	    (SELECT COUNT(*) FROM RP_MINISTERIOS WHERE id_cd_pessoa = ?) AS nr_rsp
 	", array($id) );
 	if (!$qtds->EOF):
@@ -57,6 +57,7 @@ function fCalculaValidade( $chave, $dhBaseCalculo ){
 	return $retorno->format('Y-m-d H:i:s');
 }
 
+//1d9b016bd1ed7124d83d84517e1ac2a3657819ea
 function fVerificaTestes($id){
 	$arr = array();
 
@@ -65,7 +66,7 @@ function fVerificaTestes($id){
 	if ( $dons["nr_rsp"] == 0 ):
 	
 		//SE PASSOU DO PRAZO DE VALIDADE, ABRE AUTOMATICAMENTE NOVO TESTE.
-		$result = $GLOBALS['conn']->Execute("SELECT 1 FROM HS_RESULTADO WHERE id_cd_pessoa = ? AND dh_fim_validade > ? AND tp = ?", array( $id, date('Y-m-d H:i:s'), 'D' ) );
+		$result = $GLOBALS['conn']->Execute("SELECT 1 FROM HS_RESULTADO WHERE id_cd_pessoa = ? AND dh_fim_validade > NOW() AND tp = ?", array( $id, 'D' ) );
 		if ($result ->EOF):
 			$GLOBALS['conn']->Execute("INSERT INTO RP_DONS(id_cd_pessoa, id_qs_dons) VALUES (?,?) ", array($id,1) );
 			$arr["dons"] = $dons;
@@ -78,7 +79,7 @@ function fVerificaTestes($id){
 	$minis = fRetornaTesteMinisteriosQuantidades($id);
 	if ( $minis["nr_rsp"] == 0 ):
 		//SE PASSOU DO PRAZO DE VALIDADE, ABRE AUTOMATICAMENTE NOVO TESTE.
-		$result = $GLOBALS['conn']->Execute("SELECT 1 FROM HS_RESULTADO WHERE id_cd_pessoa = ? AND dh_fim_validade > ? AND tp = ?", array( $id, date('Y-m-d H:i:s'), 'M' ) );
+		$result = $GLOBALS['conn']->Execute("SELECT 1 FROM HS_RESULTADO WHERE id_cd_pessoa = ? AND dh_fim_validade > NOW() AND tp = ?", array( $id, 'M' ) );
 		if ($result ->EOF):
 			$GLOBALS['conn']->Execute("INSERT INTO RP_MINISTERIOS(id_cd_pessoa, id_cd_ministerios) VALUES (?,?) ", array($id,1) );
 			$arr["minis"] = $minis;
