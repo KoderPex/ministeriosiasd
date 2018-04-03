@@ -8,12 +8,11 @@ function getPeople() {
 	$arr = array();
 
 	fConnDB();
-	
 	$result = $GLOBALS['conn']->Execute( "
 		SELECT p.id, p.nm, p.cd_email, crd.id AS id_rd, crm.id AS id_rm
 		  FROM CD_PESSOA p
-	 LEFT JOIN CON_RESULTADO crd ON (crd.id_cd_pessoa = p.id AND crd.tp = 'D')
-	 LEFT JOIN CON_RESULTADO crm ON (crm.id_cd_pessoa = p.id AND crm.tp = 'M')
+	 LEFT JOIN CON_RESULTADO_LAST crd ON (crd.id_cd_pessoa = p.id AND crd.tp = 'D')
+	 LEFT JOIN CON_RESULTADO_LAST crm ON (crm.id_cd_pessoa = p.id AND crm.tp = 'M')
 	  ORDER BY p.nm
 	");
 	foreach ($result as $k => $fields):

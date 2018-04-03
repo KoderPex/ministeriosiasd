@@ -23,7 +23,7 @@ function getFilter( $parameters ) {
 	
 	//DONS
 	elseif ( $type == "D" ):
-		$domain = getDonsDomain();
+		$domain = getDomain("CON_CD_DONS");
 		
 	//NOTAS DE DONS - NI-IGUAL, NA-MAIOR, NE-MENOR
 	elseif ( $type == "NI" || $type == "NA" || $type == "NE" ):
@@ -34,13 +34,9 @@ function getFilter( $parameters ) {
 
 	//MINISTERIOS
 	elseif ( $type == "M" ):
-		$domain = getMinisteriosDomain();
+		$domain = getDomain("CON_CD_MINISTERIOS");
 		
-	//MINISTERIOS
-	elseif ( $type == "AM" ):
-		$domain = getAreaMinisteriosDomain();
-		
-		//NOTAS DE MINISTERIOS - MI-IGUAL, MA-MAIOR, ME-MENOR
+	//NOTAS DE MINISTERIOS - MI-IGUAL, MA-MAIOR, ME-MENOR
 	elseif ( $type == "MI" || $type == "MA" || $type == "ME" ):
 		$domain = array();
 		for ($i=1;$i<=10;$i++):

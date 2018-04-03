@@ -9,7 +9,6 @@
 			"filters" => 
 				array( 
 					array( "value" => "M", "label" => "Minist&eacute;rio" ),
-					array( "value" => "AM", "label" => "&Aacute;rea" ),
 					array( "value" => "MI", "label" => "Nota igual" ),
 					array( "value" => "MA", "label" => "Nota maior", "unique" => true ),
 					array( "value" => "ME", "label" => "Nota menor", "unique" => true )

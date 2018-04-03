@@ -55,10 +55,10 @@ function getQueryByFilterGifts( $parameters ) {
 
 	if (!empty($where)):
 		$query = "
-		SELECT hri.nr_item, cr.nm, cd.ds_dom
+		SELECT hri.nr_item, cr.nm, cd.ds
 		FROM CON_RESULTADO cr
 		INNER JOIN HS_RESULT_ITEM hri ON (hri.id_hs_resultado = cr.id)
-		INNER JOIN CON_CD_DONS cd ON (cd.cd = hri.cd)  
+		INNER JOIN CON_CD_DONS cd ON (cd.id = hri.id_origem)  
 		WHERE cr.TP = ? $where
 		";
 		return $GLOBALS['conn']->Execute( $query, $aWhere );
@@ -75,7 +75,7 @@ function getDons( $parameters ) {
 		foreach ($result as $k => $fields):
 			$arr[] = array(
 					"nm" => utf8_encode($fields["nm"]),
-					"dm" => utf8_encode($fields["ds_dom"]),
+					"dm" => utf8_encode($fields["ds"]),
 					"nt" => $fields["nr_item"]
 			);
 		endforeach;
@@ -97,8 +97,6 @@ function getQueryByFilterMinisters( $parameters ) {
 			$notStr = ( $not ? "NOT " : "" );
 			if ( $key == "M" ):
 				$where .= " AND cm.ID ".$notStr."IN";
-			elseif ( $key == "AM" ):
-				$where .= " AND cmg.ID ".$notStr."IN";
 			elseif ( $key == "MI" ):
 				$where .= " AND hri.nr_item ".$notStr."IN";
 			elseif ( $key == "MA" ):
@@ -141,8 +139,7 @@ function getQueryByFilterMinisters( $parameters ) {
 		SELECT hri.nr_item, cr.nm, cm.ds
 		FROM CON_RESULTADO cr
 		INNER JOIN HS_RESULT_ITEM hri ON (hri.id_hs_resultado = cr.id)
-		INNER JOIN CON_CD_MINISTERIOS cm ON (cm.cd = hri.cd)  
-		INNER JOIN CD_MINISTERIOS_GP cmg ON (cmg.id = cm.id_cd_ministerios_gp)  
+		INNER JOIN CON_CD_MINISTERIOS cm ON (cm.id = hri.id_origem)  
 		WHERE cr.TP = ? $where
 		";
 		return $GLOBALS['conn']->Execute( $query, $aWhere );
