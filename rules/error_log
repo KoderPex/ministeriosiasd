@@ -1,0 +1,4 @@
+[30-Apr-2018 18:01:08] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/minis875/public_html/_dbconnect/adodb5/drivers/adodb-mysql.inc.php on line 462
+[30-Apr-2018 18:01:08] PHP Warning:  Division by zero in /home/minis875/public_html/rules/testes.php on line 28
+[30-Apr-2018 18:01:21] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/minis875/public_html/_dbconnect/adodb5/drivers/adodb-mysql.inc.php on line 462
+[30-Apr-2018 18:01:21] PHP Warning:  Division by zero in /home/minis875/public_html/rules/testes.php on line 28
