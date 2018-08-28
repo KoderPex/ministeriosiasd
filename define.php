@@ -1,13 +1,12 @@
 <?php
 @include_once("include/functions.php");
-@require_once("_dbconnect/connection.php");
 
 $id = fRequest("id");
 $hint = fRequest("hint");
 
 if ( $id != "" ):
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE cd_valido = ? AND fg_ativo = 'N'", Array( $id ) );
+	
+	$result = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE cd_valido = ? AND fg_ativo = 'N'", Array( $id ) );
 	if ($result->EOF):
 		header("location:".$GLOBALS['VirtualDir']."login.php");
 		exit;
@@ -17,7 +16,7 @@ if ( $id != "" ):
 		$id_cd_pessoa = $result->fields['id'];
 
 		//ATUALIZA USUARIO, VALIDANDO DADOS.
-		$GLOBALS['conn']->Execute("
+		CONN::get()->Execute("
 			UPDATE CD_PESSOA SET
 				fg_ativo = 'S',
 				ds_senha = NULL,

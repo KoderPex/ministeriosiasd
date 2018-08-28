@@ -1,6 +1,5 @@
 <?php
 @include_once("../include/functions.php");
-@include_once("../_dbconnect/connection.php");
 @include_once("../_mailer/sendmail.php");
 @include_once("testes.php");
 responseMethod();
@@ -21,8 +20,8 @@ function login( $parameters ) {
 	
 	//Verificacao de Usuario/Senha
 	if ( isset($usr) && !empty($usr) ):
-		fConnDB();
-		$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE cd_email = ?", Array( $usr ) );
+		
+		$result = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE cd_email = ?", Array( $usr ) );
 		if (!$result->EOF):
 			$ativo = $result->fields['fg_ativo'];
 
@@ -53,7 +52,7 @@ function login( $parameters ) {
 				
 				//ENTRAR NO DASHBOARD
 				elseif ($senhaBD == $psw):
-					$GLOBALS['conn']->Execute("UPDATE CD_PESSOA SET nr_tent = 0 WHERE id = ?", Array( $idBD ) );
+					CONN::get()->Execute("UPDATE CD_PESSOA SET nr_tent = 0 WHERE id = ?", Array( $idBD ) );
 					fVerificaTestes($idBD);
 					fSetSessionLogin($result);
 					$arr['page'] = $GLOBALS['VirtualDir']."dashboard.php";
@@ -61,12 +60,12 @@ function login( $parameters ) {
 					
 				//SE ERROU A SENHA MAIS DO QUE 3 VEZES
 				elseif ($tentBD > 3):
-					$GLOBALS['conn']->Execute("UPDATE CD_PESSOA SET fg_ativo = 'N' WHERE id = ?", Array( $idBD ) );
+					CONN::get()->Execute("UPDATE CD_PESSOA SET fg_ativo = 'N' WHERE id = ?", Array( $idBD ) );
 					$arr['message'] = "Excedido numero de tentativas.<br/>Seu usuário foi bloqueado!";
 				
 				//SE ERROU A SENHA
 				else:
-					$GLOBALS['conn']->Execute("UPDATE CD_PESSOA SET nr_tent = ? WHERE id = ?", Array( $tentBD, $idBD ) );
+					CONN::get()->Execute("UPDATE CD_PESSOA SET nr_tent = ? WHERE id = ?", Array( $tentBD, $idBD ) );
 				
 				endif;
 				
@@ -100,8 +99,8 @@ function register( $parameters ) {
 		if ( $psw != $cnf ):
 			$arr['message'] = "Senha e confirma&ccedil;&atilde;o da senha s&atilde;o diferentes.";
 		else:
-			fConnDB();
-			$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE cd_email = ?",array($usr));
+			
+			$result = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE cd_email = ?",array($usr));
 			
 			//SE EXISTE CADASTRO
 			if (!$result->EOF):
@@ -119,7 +118,7 @@ function register( $parameters ) {
 				
 					//NAO TEM SENHA NO BANCO
 					if ( !empty($psw) && (is_null($senhaBD) || empty($senhaBD)) ):
-						$GLOBALS['conn']->Execute("
+						CONN::get()->Execute("
 							UPDATE CD_PESSOA SET
 								ds_senha = ?,
 								nr_tent = 0
@@ -135,7 +134,7 @@ function register( $parameters ) {
 					
 					//TEM SENHA NO BANCO, MAS NAO LEMBRA A SENHA
 					elseif ( empty($psw) ):
-						$GLOBALS['conn']->Execute("
+						CONN::get()->Execute("
 							UPDATE CD_PESSOA SET
 								ds_senha = NULL,
 								fg_ativo = 'N'
@@ -182,7 +181,7 @@ function register( $parameters ) {
 				$GLOBALS['mail']->MsgHTML($body);
 
 				if ( $GLOBALS['mail']->Send() ):
-					$GLOBALS['conn']->Execute("INSERT INTO CD_PESSOA (
+					CONN::get()->Execute("INSERT INTO CD_PESSOA (
 						cd_email,
 						ds_senha,
 						nm,
@@ -246,7 +245,7 @@ function fSetRecover( $result, $ret ) {
 	$GLOBALS['mail']->MsgHTML($body);
 
 	if ( $GLOBALS['mail']->Send() ):
-		$GLOBALS['conn']->Execute("
+		CONN::get()->Execute("
 			UPDATE CD_PESSOA SET
 				cd_valido = ?
 			WHERE id = ?",

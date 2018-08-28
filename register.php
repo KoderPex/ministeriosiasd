@@ -1,14 +1,13 @@
 <?php
 @include_once("include/functions.php");
-@require_once("_dbconnect/connection.php");
 
 $id = fRequest("id");
 $hint = fRequest("hint");
 
 //INSTRUCAO PARA VALIDAR O EMAIL
 if ( $hint != "" ):
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE cd_valido IS NOT NULL AND fg_ativo = 'N' AND cd_email = ?", Array( $hint ) );
+	
+	$result = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE cd_valido IS NOT NULL AND fg_ativo = 'N' AND cd_email = ?", Array( $hint ) );
 	if ($result->EOF):
 		header("location:".$GLOBALS['VirtualDir']."login.php");
 		exit;
@@ -20,8 +19,8 @@ if ( $hint != "" ):
 //LINK POR EMAIL
 elseif ( $id != "" ):
 	@include_once("rules/testes.php");
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE cd_valido = ? AND fg_ativo = 'N'", Array( $id ) );
+	
+	$result = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE cd_valido = ? AND fg_ativo = 'N'", Array( $id ) );
 	if ($result->EOF):
 		header("location:".$GLOBALS['VirtualDir']."login.php");
 		exit;
@@ -30,7 +29,7 @@ elseif ( $id != "" ):
 		$id_cd_pessoa = $result->fields['id'];
 		
 		//ATUALIZA USUARIO, VALIDANDO DADOS.
-		$GLOBALS['conn']->Execute("
+		CONN::get()->Execute("
 			UPDATE CD_PESSOA SET
 				fg_ativo = 'S',
 				cd_valido = null,

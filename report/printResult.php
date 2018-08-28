@@ -1,6 +1,5 @@
 <?php
 @require_once("../include/functions.php");
-@require_once("../_dbconnect/connection.php");
 @require_once("../assets/tcpdf/tcpdf.php");
 @require_once("../rules/testes.php");
 
@@ -181,7 +180,7 @@ class RESULTS extends TCPDF {
 
 $pdf = new RESULTS();
 
-fConnDB();
+
 $result = fQueryResult( fRequest("id") );
 if ($result->EOF):
 	exit("Resultado inválido. Consulte do administrador do sistema.");

@@ -1,7 +1,7 @@
 <?php
 function getDomain($table){
 	$arr = array();
-	$result = $GLOBALS['conn']->Execute("
+	$result = CONN::get()->Execute("
 		SELECT id, ds 
 		  FROM $table 
 	  ORDER BY ds

@@ -1,14 +1,13 @@
 <?php
 @include_once("../include/functions.php");
-@include_once("../_dbconnect/connection.php");
 @include_once("testes.php");
 responseMethod();
 
 function getPeople() {
 	$arr = array();
 
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute( "
+	
+	$result = CONN::get()->Execute( "
 		SELECT p.id, p.nm, p.cd_email, crd.id AS id_rd, crm.id AS id_rm
 		  FROM CD_PESSOA p
 	 LEFT JOIN CON_RESULTADO_LAST crd ON (crd.id_cd_pessoa = p.id AND crd.tp = 'D')
@@ -32,7 +31,7 @@ function updateMember( $parameters ) {
 	$arr = array();
 	$arr["result"] = false;
 	
-	fConnDB();
+	
 	
 	$id = $parameters["id"];
 	$vl = $parameters["val"];
@@ -43,7 +42,7 @@ function updateMember( $parameters ) {
 	
 	$str = "UPDATE $table SET $field = ? WHERE ID = ?";
 	
-	$GLOBALS['conn']->Execute( $str, array( fReturnStringNull( $vl ), $id ) );
+	CONN::get()->Execute( $str, array( fReturnStringNull( $vl ), $id ) );
 	
 	$arr["result"] = true;
 	return $arr;
@@ -55,15 +54,15 @@ function insertMember( $parameters ) {
 	
 	if ( isset($parameters["id"]) && $parameters["id"] == "Novo" ):
 		if (isset($parameters["nm"])):
-			fConnDB();
-			$GLOBALS['conn']->Execute("
+			
+			CONN::get()->Execute("
 				INSERT INTO CD_PESSOA(
 					NM
 				) VALUES (
 					?
 				)
 			", array( $parameters["nm"] ) );
-			$id = $GLOBALS['conn']->Insert_ID();
+			$id = CONN::get()->Insert_ID();
 			return getMember( array( "id" => $id ) );
 		endif;
 	endif;
@@ -74,9 +73,9 @@ function getMember( $parameters ) {
 	$arr = array();
 	$arr["result"] = false;
 
-	fConnDB();
+	
 
-	$result = $GLOBALS['conn']->Execute("
+	$result = CONN::get()->Execute("
 		SELECT  *
 		  FROM CD_PESSOA
 		 WHERE ID = ?

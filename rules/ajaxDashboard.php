@@ -1,12 +1,11 @@
 <?php
 @include_once("../include/functions.php");
-@include_once("../_dbconnect/connection.php");
 @include_once("testes.php");
 responseMethod();
 
 function painel() {
 	session_start();
-	fConnDB();
+	
 	
 	$arr = array();
 
@@ -71,7 +70,7 @@ function painel() {
 	endif;
 	
 	//NUMERO DE PESSOAS CADASTRADAS
-	$rs = $GLOBALS['conn']->Execute("SELECT COUNT(*) AS qt FROM CD_PESSOA");
+	$rs = CONN::get()->Execute("SELECT COUNT(*) AS qt FROM CD_PESSOA");
 	$nrUsr = 0;
 	if (!$rs->EOF):
 		$nrUsr = $rs->fields["qt"];
@@ -87,7 +86,7 @@ function painel() {
 	endif;
 
 	//NUMERO DE PESSOAS COM RESULTADO DE DONS
-	$rs = $GLOBALS['conn']->Execute("SELECT DISTINCT id_cd_pessoa FROM HS_RESULTADO WHERE tp = ?", array('D') );
+	$rs = CONN::get()->Execute("SELECT DISTINCT id_cd_pessoa FROM HS_RESULTADO WHERE tp = ?", array('D') );
 	if (!$rs->EOF):
 		$arr[] = array(
 			"leftBkTheme" => "databox-left bg-palegreen",
@@ -101,7 +100,7 @@ function painel() {
 	endif;
 
 	//NUMERO DE PESSOAS COM RESULTADO DE MINISTERIOS
-	$rs = $GLOBALS['conn']->Execute("SELECT DISTINCT id_cd_pessoa FROM HS_RESULTADO WHERE tp = ?", array('M') );
+	$rs = CONN::get()->Execute("SELECT DISTINCT id_cd_pessoa FROM HS_RESULTADO WHERE tp = ?", array('M') );
 	if (!$rs->EOF):
 		$arr[] = array(
 			"leftBkTheme" => "databox-left bg-palegreen",
@@ -115,7 +114,7 @@ function painel() {
 	endif;
 
 	//TESTES DE DONS CONCLUÍDOS
-	$rs = $GLOBALS['conn']->Execute("SELECT * FROM HS_RESULTADO WHERE tp = ?", array('D') );
+	$rs = CONN::get()->Execute("SELECT * FROM HS_RESULTADO WHERE tp = ?", array('D') );
 	if (!$rs->EOF):
 		$arr[] = array(
 			"leftBkTheme" => "databox-left bg-palegreen",
@@ -129,7 +128,7 @@ function painel() {
 	endif;
 
 	//TESTES DE MINISTÉRIOS CONCLUÍDOS
-	$rs = $GLOBALS['conn']->Execute("SELECT * FROM HS_RESULTADO WHERE tp = ?", array('M') );
+	$rs = CONN::get()->Execute("SELECT * FROM HS_RESULTADO WHERE tp = ?", array('M') );
 	if (!$rs->EOF):
 		$arr[] = array(
 			"leftBkTheme" => "databox-left bg-palegreen",
@@ -143,7 +142,7 @@ function painel() {
 	endif;
 
 	//NUMERO DE PESSOAS COM TESTES PENDENTES
-	$rs = $GLOBALS['conn']->Execute("SELECT DISTINCT 
+	$rs = CONN::get()->Execute("SELECT DISTINCT 
 		* FROM (SELECT id_cd_pessoa FROM RP_DONS UNION SELECT id_cd_pessoa FROM RP_MINISTERIOS) A");
 	if (!$rs->EOF):
 		$arr[] = array(
@@ -158,7 +157,7 @@ function painel() {
 	endif;
 
 	//NUMERO DE PESSOAS SEM TESTES
-	$rs = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE id NOT IN (SELECT id_cd_pessoa FROM HS_RESULTADO)");
+	$rs = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE id NOT IN (SELECT id_cd_pessoa FROM HS_RESULTADO)");
 	if (!$rs->EOF):
 		$arr[] = array(
 			"leftBkTheme" => "databox-left bg-themesecondary",

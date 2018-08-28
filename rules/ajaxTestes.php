@@ -1,14 +1,13 @@
 <?php
 @include_once("../include/functions.php");
-@include_once("../_dbconnect/connection.php");
 @include_once("testes.php");
 responseMethod();
 
 function getDetailGift( $parameters ) {
 	$arr = array();
 	
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_DONS WHERE id = ? ", array( $parameters["id"] ) );
+	
+	$result = CONN::get()->Execute("SELECT * FROM CD_DONS WHERE id = ? ", array( $parameters["id"] ) );
 	foreach ($result as $rsitem):
 		$arr = array( 
 			"ds" => utf8_encode($rsitem['ds']),
@@ -26,8 +25,8 @@ function questoesDonsDirect( $parameters ){
 	$texto = "";
 	$qst = 0;
 
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
+	
+	$result = CONN::get()->Execute("
 	SELECT
 		q.id,
 		q.nr_seq,
@@ -55,7 +54,7 @@ function questoesDonsDirect( $parameters ){
 			endif;
 			$cd_cd_dons_resp_ant = $cd_cd_dons_resp;
 			$optionsResposta = "";
-			$resposta = $GLOBALS['conn']->Execute("
+			$resposta = CONN::get()->Execute("
 				SELECT id, ds, nr_seq
 				FROM CD_DONS_RESP
 				WHERE cd = ?
@@ -84,8 +83,8 @@ function questoesDons(){
 	$cd_cd_dons_resp_ant = "";
 	$tabindex = 0;
 
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
+	
+	$result = CONN::get()->Execute("
 	SELECT
 		q.id,
 		q.nr_seq,
@@ -107,7 +106,7 @@ function questoesDons(){
 		if ( $cd_cd_dons_resp_ant != $cd_cd_dons_resp ):
 			$cd_cd_dons_resp_ant = $cd_cd_dons_resp;
 			$optionsResposta = "<option></option>";
-			$resposta = $GLOBALS['conn']->Execute("
+			$resposta = CONN::get()->Execute("
 			SELECT id, ds
 			  FROM CD_DONS_RESP
 			 WHERE cd = ?
@@ -139,11 +138,11 @@ function questoesDons(){
 }
 
 function setRsDonsDirect( $parameters ){
-	fConnDB();
+	
 	$qsID = $parameters["qs"];
 	$col = $parameters["col"];
 	
-	$rs = $GLOBALS['conn']->Execute("
+	$rs = CONN::get()->Execute("
 		SELECT o.id
 		FROM CON_QS_DONS q
 		INNER JOIN CD_DONS_RESP o ON ( o.cd = q.cd_cd_dons_resp ) 
@@ -160,26 +159,26 @@ function setRsDons( $parameters ){
 }
 
 function setRsDonsPessoa( $pessoaID, $qsID, $rsID ){
-	fConnDB();
+	
 	//SE RESPOSTA PREENCHIDA
 	if ( isset($rsID) && !empty($rsID) ):
-		$result = $GLOBALS['conn']->Execute("SELECT * FROM RP_DONS WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $qsID, $pessoaID ) );
+		$result = CONN::get()->Execute("SELECT * FROM RP_DONS WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $qsID, $pessoaID ) );
 		if ($result->EOF):
-			$GLOBALS['conn']->Execute("INSERT INTO RP_DONS (id_cd_pessoa, id_qs_dons, id_cd_dons_resp) VALUES (?,?,?)", array( $pessoaID, $qsID, $rsID ) );
+			CONN::get()->Execute("INSERT INTO RP_DONS (id_cd_pessoa, id_qs_dons, id_cd_dons_resp) VALUES (?,?,?)", array( $pessoaID, $qsID, $rsID ) );
 		else:
-			$GLOBALS['conn']->Execute("UPDATE RP_DONS SET id_cd_dons_resp = ? WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $rsID, $qsID, $pessoaID ) );
+			CONN::get()->Execute("UPDATE RP_DONS SET id_cd_dons_resp = ? WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $rsID, $qsID, $pessoaID ) );
 		endif;
 		
 	//SE RESPOSTA EM BRANCO
 	else:
-		$GLOBALS['conn']->Execute("DELETE FROM RP_DONS WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $qsID, $pessoaID ) );
+		CONN::get()->Execute("DELETE FROM RP_DONS WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $qsID, $pessoaID ) );
 	endif;
 	return array( "return" => true, "result" => fRetornaTesteDonsQuantidades( $pessoaID ) );
 }
 
 
 function finalizarDonsPessoa( $pessoaID ){
-	fConnDB();
+	
 	$donsPend = fRetornaTesteDonsQuantidades( $pessoaID );
 
 	//SE EXISTE TESTE DE DONS PENDENTE
@@ -190,13 +189,13 @@ function finalizarDonsPessoa( $pessoaID ){
 		$dhFimValidade = fCalculaValidade( "TESTE_DONS", $dhConclusao );
 
 		//INSERE CAPA DO TESTE
-		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULTADO ( id_cd_pessoa, dh_conclusao, dh_fim_validade, tp ) VALUES ( ?, ?, ?, ? )", 
+		CONN::get()->Execute("INSERT INTO HS_RESULTADO ( id_cd_pessoa, dh_conclusao, dh_fim_validade, tp ) VALUES ( ?, ?, ?, ? )", 
 			array( $pessoaID, $dhConclusao,  $dhFimValidade, 'D' ) );
 			
-		$id = $GLOBALS['conn']->Insert_ID();
+		$id = CONN::get()->Insert_ID();
 		
 		//INSERE ITENS DO TESTE	
-		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
+		CONN::get()->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
 			SELECT $id AS id_hs_resultado, res.ds_item, res.nr_item, res.id
 			FROM (SELECT t.ds AS ds_item, t.id, SUM(c.nr_peso) AS nr_item
 				FROM RP_DONS r 
@@ -208,7 +207,7 @@ function finalizarDonsPessoa( $pessoaID ){
 			array( $pessoaID ) );
 		
 		//APAGA RESPOSTAS	
-		$GLOBALS['conn']->Execute("DELETE FROM RP_DONS WHERE id_cd_pessoa = ?", $pessoaID );
+		CONN::get()->Execute("DELETE FROM RP_DONS WHERE id_cd_pessoa = ?", $pessoaID );
 	endif;
 }
 
@@ -239,8 +238,8 @@ function questoesMinisDirect( $parameters ){
 		$options .= "<option value=\"$i\">$i</option>";
 	endfor;
 
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
+	
+	$result = CONN::get()->Execute("
 	SELECT
 		m.id,
 		m.cd,
@@ -268,8 +267,8 @@ function questoesMinisDirect( $parameters ){
 
 function getQstMiniCode( $parameters ){
 	$arr = array();
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
+	
+	$result = CONN::get()->Execute("
 	SELECT
 		m.id,
 		m.ds
@@ -308,8 +307,8 @@ function questoesMinisteriosPessoa($pessoaID){
 		$options .= "<option value=\"$i\">$i</option>";
 	endfor;
 
-	fConnDB();
-	$result = $GLOBALS['conn']->Execute("
+	
+	$result = CONN::get()->Execute("
 	SELECT
 		m.id,
 		m.cd,
@@ -351,21 +350,21 @@ function setRsMinisterios( $parameters ){
 }
 
 function setRsMinisteriosPessoa($pessoaID,$id,$nt){
-	fConnDB();
+	
 	
 	//SE RESPOSTA PREENCHIDA
 	if ( isset($nt) && !empty($nt) ):
-		$result = $GLOBALS['conn']->Execute("SELECT * FROM RP_MINISTERIOS WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $id, $pessoaID ) );
+		$result = CONN::get()->Execute("SELECT * FROM RP_MINISTERIOS WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $id, $pessoaID ) );
 		if ($result->EOF):
-			$GLOBALS['conn']->Execute("DELETE FROM RP_MINISTERIOS WHERE nr_nota IS NULL AND id_cd_pessoa = ?", array( $pessoaID ) );
-			$GLOBALS['conn']->Execute("INSERT INTO RP_MINISTERIOS (id_cd_pessoa, id_cd_ministerios, nr_nota) VALUES (?,?,?)", array( $pessoaID, $id, $nt ) );
+			CONN::get()->Execute("DELETE FROM RP_MINISTERIOS WHERE nr_nota IS NULL AND id_cd_pessoa = ?", array( $pessoaID ) );
+			CONN::get()->Execute("INSERT INTO RP_MINISTERIOS (id_cd_pessoa, id_cd_ministerios, nr_nota) VALUES (?,?,?)", array( $pessoaID, $id, $nt ) );
 		else:
-			$GLOBALS['conn']->Execute("UPDATE RP_MINISTERIOS SET nr_nota = ? WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $nt, $id, $pessoaID ) );
+			CONN::get()->Execute("UPDATE RP_MINISTERIOS SET nr_nota = ? WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $nt, $id, $pessoaID ) );
 		endif;
 		
 	//SE RESPOSTA EM BRANCO
 	else:
-		$GLOBALS['conn']->Execute("DELETE FROM RP_MINISTERIOS WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $id, $pessoaID ) );
+		CONN::get()->Execute("DELETE FROM RP_MINISTERIOS WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $id, $pessoaID ) );
 	endif;
 	return array( "return" => true, "result" => fRetornaTesteMinisteriosQuantidades( $pessoaID ) );
 }
@@ -380,7 +379,7 @@ function finalizarMinisterios() {
 }
 
 function finalizarMinisteriosPessoa($pessoaID){
-	fConnDB();
+	
 	
 	$donsPend = fRetornaTesteMinisteriosQuantidades( $pessoaID );
 
@@ -392,13 +391,13 @@ function finalizarMinisteriosPessoa($pessoaID){
 		$dhFimValidade = fCalculaValidade( "TESTE_MINISTERIOS", $dhConclusao );
 
 		//INSERE CAPA DO TESTE
-		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULTADO ( id_cd_pessoa, dh_conclusao, dh_fim_validade, tp ) VALUES ( ?, ?, ?, ? )", 
+		CONN::get()->Execute("INSERT INTO HS_RESULTADO ( id_cd_pessoa, dh_conclusao, dh_fim_validade, tp ) VALUES ( ?, ?, ?, ? )", 
 			array( $pessoaID, $dhConclusao,  $dhFimValidade, 'M' ) );
 			
-		$id = $GLOBALS['conn']->Insert_ID();
+		$id = CONN::get()->Insert_ID();
 		
 		//INSERE ITENS DO TESTE	
-		$GLOBALS['conn']->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
+		CONN::get()->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
 			SELECT $id AS id_hs_resultado, c.ds, m.nr_nota, c.id
 			FROM RP_MINISTERIOS m
 			INNER JOIN CON_CD_MINISTERIOS c ON (c.id = m.id_cd_ministerios)
@@ -407,7 +406,7 @@ function finalizarMinisteriosPessoa($pessoaID){
 			array( $pessoaID ) );
 		
 		//APAGA RESPOSTAS	
-		$GLOBALS['conn']->Execute("DELETE FROM RP_MINISTERIOS WHERE id_cd_pessoa = ?", $pessoaID );
+		CONN::get()->Execute("DELETE FROM RP_MINISTERIOS WHERE id_cd_pessoa = ?", $pessoaID );
 	endif;
 }
 ?>

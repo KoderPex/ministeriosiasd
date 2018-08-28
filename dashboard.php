@@ -2,9 +2,7 @@
 @require_once("include/functions.php");
 verificaLogin();
 
-@require_once("_dbconnect/connection.php");
-fConnDB();
-$result = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA WHERE id = ?", Array( $_SESSION['PESSOA']['id'] ) );
+$result = CONN::get()->Execute("SELECT * FROM CD_PESSOA WHERE id = ?", Array( $_SESSION['PESSOA']['id'] ) );
 $pessoa = $result->fields;
 
 $GLOBALS["breadCrumb"] = "";

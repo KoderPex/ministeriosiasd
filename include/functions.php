@@ -7,13 +7,19 @@ mb_http_output('UTF-8');
 mb_http_input('UTF-8');
 
 global $VirtualDir;
+@require_once("_adodb5/adodb.inc.php");
 @require_once("_virtualpath.php");
+@require_once("entity.php");
 
-function responseMethod() {
+function responseMethod(){
+	error_reporting(E_ALL & ~ E_NOTICE); //& ~ E_DEPRECATED
+	ini_set('display_errors', TRUE);
+	ini_set('display_startup_errors', TRUE);
+    header('Content-type: application/json');
 	// Getting the json data from the request
 	$response = '';
-	
-	$json_data = json_decode( json_encode( $_POST ) );
+
+	$json_data = json_decode( json_encode( empty($_POST) ? $_GET : $_POST ) );
 	// Checking if the data is null..
 	if ( is_null( $json_data ) ):
 		$response = json_encode( array( "status" => -1, "message" => "Insufficient paramaters!") );
@@ -66,7 +72,7 @@ function fGetPerfil( $cd = NULL ) {
 		$query .= " AND LENGTH(td.cd) = 2";
 	endif;
 	$query .= " ORDER BY td.cd";
-	$result = $GLOBALS['conn']->Execute($query, array($_SESSION['PESSOA']['id']) );
+	$result = CONN::get()->Execute($query, array($_SESSION['PESSOA']['id']) );
 	while (!$result->EOF):
 		$child = fGetPerfil( $result->fields['cd'] );
 		$arr[ $result->fields['id'] ] = array( 
@@ -83,9 +89,9 @@ function fGetPerfil( $cd = NULL ) {
 
 function fSetVerificaPerfil( $id_cd_pessoa ) {
 	//VERIFICA SE TEM AO MENOS UM PERFIL, SE NAO INSERE PERFIL BASICO 0-GUEST.
-	$resperf = $GLOBALS['conn']->Execute("SELECT * FROM CD_PESSOA_PERFIL WHERE id_cd_pessoa = ?", Array( $id_cd_pessoa ) );
+	$resperf = CONN::get()->Execute("SELECT * FROM CD_PESSOA_PERFIL WHERE id_cd_pessoa = ?", Array( $id_cd_pessoa ) );
 	if ($resperf->EOF):
-		$GLOBALS['conn']->Execute("
+		CONN::get()->Execute("
 			INSERT INTO CD_PESSOA_PERFIL(
 				id_cd_pessoa,
 				id_tb_perfil
@@ -162,7 +168,6 @@ function getDateNull($vl){
 	endif;
 	return fStrToDate($vl,"Y-m-d");
 }
-
 
 function fDataFilters($param){
 	$strFilter = "<div class=\"col-xs-8\" id=\"divFilters\" filter-to=\"".$param["filterTo"]."\"></div>";

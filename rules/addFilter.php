@@ -1,7 +1,6 @@
 <?php
 @require_once("../include/functions.php");
 @require_once("../include/domains.php");
-@include_once("../_dbconnect/connection.php");
 responseMethod();
 
 /****************************
@@ -10,7 +9,7 @@ responseMethod();
 function getFilter( $parameters ) {
 	$domain = array();
 	
-	fConnDB();
+	
 
 	$type = $parameters["type"];
 	

@@ -1,6 +1,5 @@
 <?php
 @include_once("../include/functions.php");
-@include_once("../_dbconnect/connection.php");
 responseMethod();
 
 function getQueryByFilterGifts( $parameters ) {
@@ -61,7 +60,7 @@ function getQueryByFilterGifts( $parameters ) {
 		INNER JOIN CON_CD_DONS cd ON (cd.id = hri.id_origem)  
 		WHERE cr.TP = ? $where
 		";
-		return $GLOBALS['conn']->Execute( $query, $aWhere );
+		return CONN::get()->Execute( $query, $aWhere );
 	endif;
 	return null;
 }
@@ -69,7 +68,7 @@ function getQueryByFilterGifts( $parameters ) {
 function getDons( $parameters ) {
 	$arr = array();
 
-	fConnDB();
+	
 	$result = getQueryByFilterGifts( $parameters );
 	if (!is_null($result)):
 		foreach ($result as $k => $fields):
@@ -142,7 +141,7 @@ function getQueryByFilterMinisters( $parameters ) {
 		INNER JOIN CON_CD_MINISTERIOS cm ON (cm.id = hri.id_origem)  
 		WHERE cr.TP = ? $where
 		";
-		return $GLOBALS['conn']->Execute( $query, $aWhere );
+		return CONN::get()->Execute( $query, $aWhere );
 	endif;
 	return null;
 }
@@ -150,7 +149,7 @@ function getQueryByFilterMinisters( $parameters ) {
 function getMinisterios( $parameters ) {
 	$arr = array();
 
-	fConnDB();
+	
 	$result = getQueryByFilterMinisters( $parameters );
 	if (!is_null($result)):
 		foreach ($result as $k => $fields):
