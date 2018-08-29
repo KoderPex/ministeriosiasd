@@ -18,7 +18,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-themesecondary",
 			"pc" => floor( $rs["nr_rsp"] / $rs["nr_qst"] ),
 			"qt" => 1,
-			"ds" => utf8_encode(utf8_decode("MEU TESTE DE DONS PENDENTE")),
+			"ds" => "MEU TESTE DE DONS PENDENTE",
 			"rightBkTheme" => "databox-number themesecondary",
 			"rightDecorate" => "databox-stat themesecondary radius-bordered",
 			"ico" => "stat-icon icon-lg fa fa-tasks"
@@ -32,7 +32,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-palegreen",
 			"pc" => floor( ( $rs->RecordCount() / ( $rs->RecordCount() + $qtdDons ) ) * 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("MEUS TESTES DE DONS CONCLUÍDOS")),
+			"ds" => "MEUS TESTES DE DONS CONCLUÍDOS",
 			"rightBkTheme" => "databox-number green",
 			"rightDecorate" => "databox-stat bg-palegreen radius-bordered",
 			"ico" => "stat-icon fa fa-check"
@@ -48,7 +48,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-themesecondary",
 			"pc" => 0,
 			"qt" => 1,
-			"ds" => utf8_encode(utf8_decode("MEU TESTE DE MINISTÉRIOS PENDENTE")),
+			"ds" => "MEU TESTE DE MINISTÉRIOS PENDENTE",
 			"rightBkTheme" => "databox-number themesecondary",
 			"rightDecorate" => "databox-stat themesecondary radius-bordered",
 			"ico" => "stat-icon icon-lg fa fa-tasks"
@@ -62,7 +62,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-palegreen",
 			"pc" => floor( ( $rs->RecordCount() / ( $rs->RecordCount() + $qtdMinis ) ) * 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("MEUS TESTES DE MINISTÉRIOS CONCLUÍDOS")),
+			"ds" => "MEUS TESTES DE MINISTÉRIOS CONCLUÍDOS",
 			"rightBkTheme" => "databox-number green",
 			"rightDecorate" => "databox-stat bg-palegreen radius-bordered",
 			"ico" => "stat-icon fa fa-check"
@@ -78,7 +78,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-themeprimary",
 			"pc" => 100,
 			"qt" => $nrUsr,
-			"ds" => utf8_encode(utf8_decode("PESSOAS CADASTRADAS")),
+			"ds" => "PESSOAS CADASTRADAS",
 			"rightBkTheme" => "databox-number themeprimary",
 			"rightDecorate" => "databox-state bg-themeprimary",
 			"ico" => "fa fa-users"
@@ -92,7 +92,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-palegreen",
 			"pc" => min( ceil( ( $rs->RecordCount() / $nrUsr ) * 100 ), 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("PESSOAS COM RESULTADO DE DONS")),
+			"ds" => "PESSOAS COM RESULTADO DE DONS",
 			"rightBkTheme" => "databox-number green",
 			"rightDecorate" => "databox-stat bg-palegreen radius-bordered",
 			"ico" => "stat-icon fa fa-check"
@@ -106,7 +106,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-palegreen",
 			"pc" => min( ceil( ( $rs->RecordCount() / $nrUsr ) * 100 ), 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("PESSOAS COM RESULTADO DE MINISTÉRIOS")),
+			"ds" => "PESSOAS COM RESULTADO DE MINISTÉRIOS",
 			"rightBkTheme" => "databox-number green",
 			"rightDecorate" => "databox-stat bg-palegreen radius-bordered",
 			"ico" => "stat-icon fa fa-check"
@@ -120,7 +120,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-palegreen",
 			"pc" => min( ceil( ( $rs->RecordCount() / $nrUsr ) * 100 ), 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("TESTES DE DONS CONCLUÍDOS")),
+			"ds" => "TESTES DE DONS CONCLUÍDOS",
 			"rightBkTheme" => "databox-number green",
 			"rightDecorate" => "databox-stat bg-palegreen radius-bordered",
 			"ico" => "stat-icon fa fa-check"
@@ -134,7 +134,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-palegreen",
 			"pc" => min( ceil( ( $rs->RecordCount() / $nrUsr ) * 100 ), 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("TESTES DE MINISTÉRIOS CONCLUÍDOS")),
+			"ds" => "TESTES DE MINISTÉRIOS CONCLUÍDOS",
 			"rightBkTheme" => "databox-number green",
 			"rightDecorate" => "databox-stat bg-palegreen radius-bordered",
 			"ico" => "stat-icon fa fa-check"
@@ -149,7 +149,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-themethirdcolor",
 			"pc" => min( ceil( ( $rs->RecordCount() / $nrUsr ) * 100 ), 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("PESSOAS COM TESTES PENDENTES")),
+			"ds" => "PESSOAS COM TESTES PENDENTES",
 			"rightBkTheme" => "databox-number themethirdcolor",
 			"rightDecorate" => "databox-stat themethirdcolor radius-bordered",
 			"ico" => "stat-icon icon-lg fa fa-exclamation-circle"
@@ -163,7 +163,7 @@ function painel() {
 			"leftBkTheme" => "databox-left bg-themesecondary",
 			"pc" => min( ceil( ( $rs->RecordCount() / $nrUsr ) * 100 ), 100 ),
 			"qt" => $rs->RecordCount(),
-			"ds" => utf8_encode(utf8_decode("PESSOAS SEM NENHUM TESTE")),
+			"ds" => "PESSOAS SEM NENHUM TESTE",
 			"rightBkTheme" => "databox-number themesecondary",
 			"rightDecorate" => "databox-stat themesecondary radius-bordered",
 			"ico" => "stat-icon icon-lg fa fa-question-circle"

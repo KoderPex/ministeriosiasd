@@ -10,10 +10,10 @@ function getDetailGift( $parameters ) {
 	$result = CONN::get()->Execute("SELECT * FROM CD_DONS WHERE id = ? ", array( $parameters["id"] ) );
 	foreach ($result as $rsitem):
 		$arr = array( 
-			"ds" => utf8_encode($rsitem['ds']),
-			"ds_explain" => utf8_encode($rsitem['ds_explain']),
-			"ds_ref_biblica" => utf8_encode($rsitem['ds_ref_biblica']),
-			"ds_tarefas" => utf8_encode($rsitem['ds_tarefas'])
+			"ds" => $rsitem['ds'],
+			"ds_explain" => $rsitem['ds_explain'],
+			"ds_ref_biblica" => $rsitem['ds_ref_biblica'],
+			"ds_tarefas" => $rsitem['ds_tarefas']
 		);
 	endforeach;
 	return array( "return" => true, "result" => $arr );
@@ -60,12 +60,12 @@ function questoesDonsDirect( $parameters ){
 				WHERE cd = ?
 				ORDER BY nr_seq", array($cd_cd_dons_resp) );
 			foreach ($resposta as $j => $r):
-				$optionsResposta .= (empty($optionsResposta) ? "" : ", " ) . $r['nr_seq']. "=". utf8_encode(ucfirst($r['ds']));
+				$optionsResposta .= (empty($optionsResposta) ? "" : ", " ) . $r['nr_seq']. "=". ucfirst($r['ds']);
 			endforeach;
 			$texto .= "<h6 class=\"row-title before-orange\">".
 			(is_null($f['ds_prefixo']) 
-				? "$optionsResposta <b>". utf8_encode(substr($f['ds_texto'],0,18))."...</b>" 
-				: "<b>". utf8_encode($f['ds_prefixo']) ."...</b> $optionsResposta").
+				? "$optionsResposta <b>". substr($f['ds_texto'],0,18)."...</b>" 
+				: "<b>". $f['ds_prefixo'] ."...</b> $optionsResposta").
 			"</h6><div class=\"row\">";
 		endif;
 
@@ -112,7 +112,7 @@ function questoesDons(){
 			 WHERE cd = ?
 			ORDER BY nr_seq", array($cd_cd_dons_resp) );
 			while (!$resposta->EOF):
-				$optionsResposta .= "<option value=\"".$resposta->fields['id']."\">".utf8_encode($resposta->fields['ds'])."</option>";
+				$optionsResposta .= "<option value=\"".$resposta->fields['id']."\">".$resposta->fields['ds']."</option>";
 				$resposta->MoveNext();
 			endwhile;
 		endif;
@@ -125,7 +125,7 @@ function questoesDons(){
 		$cmb_resposta_base .= "</select>";
 
 		$texto = "<div class=\"form-group $classField\">";
-		$texto .= utf8_encode($result->fields['ds_prefixo'])."&nbsp;$cmb_resposta_base&nbsp;".utf8_encode($result->fields['ds_texto']);
+		$texto .= $result->fields['ds_prefixo']."&nbsp;$cmb_resposta_base&nbsp;".$result->fields['ds_texto'];
 		$texto .= "</div>";
 		
 		$arr[] = array( 
@@ -256,7 +256,7 @@ function questoesMinisDirect( $parameters ){
 		$nr_nota = $rsitem['nr_nota'];
 		$opt = str_replace( "<option value=\"$nr_nota\">", "<option value=\"$nr_nota\" selected>", $options );
 		
-		$or .= templateMinisteriosDirect( $rsitem['id'], $rsitem['cd'], utf8_encode($rsitem['ds']), ++$tabindex, $opt);
+		$or .= templateMinisteriosDirect( $rsitem['id'], $rsitem['cd'], $rsitem['ds'], ++$tabindex, $opt);
 	endforeach;
 	$or .= templateMinisteriosDirect("","","",1,$options);
 	
@@ -278,7 +278,7 @@ function getQstMiniCode( $parameters ){
 	if (!$result->EOF):
 		return array( "return" => true, "result" => array( 
 							"id" => $result->fields['id'],
-							"ds" => utf8_encode($result->fields['ds'])
+							"ds" => $result->fields['ds']
 							) 
 			);
 	endif;
@@ -324,7 +324,7 @@ function questoesMinisteriosPessoa($pessoaID){
 		$id = $rsitem['id'];
 		$nr_nota = $rsitem['nr_nota'];
 		$cd = $rsitem['cd'];
-		$ds = utf8_encode($rsitem['ds']);
+		$ds = $rsitem['ds'];
 		
 		$opt = str_replace( "<option value=\"$nr_nota\">", "<option value=\"$nr_nota\" selected>", $options );
 		$arr[] = array(

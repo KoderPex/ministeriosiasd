@@ -76,15 +76,16 @@ function fSetActive( $perfil, $id = NULL ) {
 
 $arvore = fGetPerfil();
 $perfil = fSetActive( $arvore, fRequest("id") );
-?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app="angular-app">
+?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="angular-app" lang="pt-br" dir="ltr">
 <head>
     <meta charset="utf-8"/>
     <title>Dashboard</title>
     <meta name="description" content="Dashboard" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <link rel="shortcut icon" href="<?php echo $GLOBALS['VirtualDir'];?>img/logo.png" type="image/x-icon">
     <link href="<?php echo $GLOBALS['VirtualDir'];?>assets/css/bootstrap.min.css" rel="stylesheet" />
     <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
@@ -136,7 +137,7 @@ $perfil = fSetActive( $arvore, fRequest("id") );
                             <li>
                                 <a class="login-area dropdown-toggle" data-toggle="dropdown">
                                     <section>
-                                        <h2><span class="profile"><span><?php echo ucwords(mb_strtolower(utf8_encode($pessoa['nm'])));?></span></span></h2>
+                                        <h2><span class="profile"><span><?php echo ucwords(mb_strtolower($pessoa['nm']));?></span></span></h2>
                                     </section>
                                 </a>
                                 <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">

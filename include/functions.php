@@ -1,5 +1,6 @@
 <?php
-error_reporting (E_ALL & ~ E_NOTICE & ~ E_DEPRECATED); //
+ini_set('memory_limit','200M');
+error_reporting(E_ALL & ~ E_NOTICE & ~ E_DEPRECATED);
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
 mb_internal_encoding('UTF-8');
@@ -76,7 +77,7 @@ function fGetPerfil( $cd = NULL ) {
 	while (!$result->EOF):
 		$child = fGetPerfil( $result->fields['cd'] );
 		$arr[ $result->fields['id'] ] = array( 
-			"opt"	 => utf8_encode($result->fields['ds_menu']),
+			"opt"	 => $result->fields['ds_menu'],
 			"ico"	 => $result->fields['ds_icon'],
 			"url"	 => $result->fields['ds_url'],
 			"active" => false,

@@ -17,7 +17,7 @@ function getPeople() {
 	foreach ($result as $k => $fields):
 		$arr[] = array(
 			"id" => $fields["id"],
-			"nm" => utf8_encode($fields["nm"]),
+			"nm" => $fields["nm"],
 			"em" => $fields["cd_email"],
 			"rd" => $fields["id_rd"],
 			"rm" => $fields["id_rm"]
@@ -85,8 +85,8 @@ function getMember( $parameters ) {
 		
 		$arr["membro"] = array(
 			"cd_pessoa-id"		=> $result->fields['id'],
-			"cd_pessoa-nm"		=> utf8_encode(trim($result->fields['nm'])),
-			"cd_pessoa-cd_email"	=> utf8_encode(trim($result->fields['cd_email']))
+			"cd_pessoa-nm"		=> trim($result->fields['nm']),
+			"cd_pessoa-cd_email"	=> trim($result->fields['cd_email'])
 		);
 	endif;
 	$arr["testes"] = fVerificaTestes($parameters["id"]);

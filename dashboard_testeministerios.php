@@ -63,7 +63,7 @@
 						?>
 						<tr>
 						<td><?php echo ++$ordem;?>&ordm;</td>
-						<td><?php echo utf8_encode($rsitem['ds_item']);?></td>
+						<td><?php echo $rsitem['ds_item'];?></td>
 						<td><?php echo $rsitem['nr_item'];?></td>
 						</tr>
 						<?php				
