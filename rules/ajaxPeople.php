@@ -6,7 +6,6 @@ responseMethod();
 function getPeople() {
 	$arr = array();
 
-	
 	$result = CONN::get()->Execute( "
 		SELECT p.id, p.nm, p.cd_email, crd.id AS id_rd, crm.id AS id_rm
 		  FROM CD_PESSOA p
@@ -30,9 +29,7 @@ function getPeople() {
 function updateMember( $parameters ) {
 	$arr = array();
 	$arr["result"] = false;
-	
-	
-	
+
 	$id = $parameters["id"];
 	$vl = $parameters["val"];
 	$tf = explode("-",$parameters["field"]);
@@ -72,8 +69,6 @@ function insertMember( $parameters ) {
 function getMember( $parameters ) {
 	$arr = array();
 	$arr["result"] = false;
-
-	
 
 	$result = CONN::get()->Execute("
 		SELECT  *

@@ -5,8 +5,6 @@ responseMethod();
 
 function getDetailGift( $parameters ) {
 	$arr = array();
-	
-	
 	$result = CONN::get()->Execute("SELECT * FROM CD_DONS WHERE id = ? ", array( $parameters["id"] ) );
 	foreach ($result as $rsitem):
 		$arr = array( 
@@ -24,8 +22,6 @@ function questoesDonsDirect( $parameters ){
 	$tabindex = 0;
 	$texto = "";
 	$qst = 0;
-
-	
 	$result = CONN::get()->Execute("
 	SELECT
 		q.id,
@@ -83,7 +79,6 @@ function questoesDons(){
 	$cd_cd_dons_resp_ant = "";
 	$tabindex = 0;
 
-	
 	$result = CONN::get()->Execute("
 	SELECT
 		q.id,
@@ -138,7 +133,6 @@ function questoesDons(){
 }
 
 function setRsDonsDirect( $parameters ){
-	
 	$qsID = $parameters["qs"];
 	$col = $parameters["col"];
 	
@@ -159,7 +153,6 @@ function setRsDons( $parameters ){
 }
 
 function setRsDonsPessoa( $pessoaID, $qsID, $rsID ){
-	
 	//SE RESPOSTA PREENCHIDA
 	if ( isset($rsID) && !empty($rsID) ):
 		$result = CONN::get()->Execute("SELECT * FROM RP_DONS WHERE id_qs_dons = ? AND id_cd_pessoa = ?", array( $qsID, $pessoaID ) );
@@ -178,7 +171,6 @@ function setRsDonsPessoa( $pessoaID, $qsID, $rsID ){
 
 
 function finalizarDonsPessoa( $pessoaID ){
-	
 	$donsPend = fRetornaTesteDonsQuantidades( $pessoaID );
 
 	//SE EXISTE TESTE DE DONS PENDENTE
@@ -222,7 +214,6 @@ function finalizarDons() {
 
 function questoesMinisDirect( $parameters ){
 	$tabindex = 0;
-
 	$or = "<div class=\"panel-body\">";
 	$or .= "<table class=\"table table-striped table-responsive\">
   		<thead><tr>
@@ -238,7 +229,6 @@ function questoesMinisDirect( $parameters ){
 		$options .= "<option value=\"$i\">$i</option>";
 	endfor;
 
-	
 	$result = CONN::get()->Execute("
 	SELECT
 		m.id,
@@ -267,7 +257,6 @@ function questoesMinisDirect( $parameters ){
 
 function getQstMiniCode( $parameters ){
 	$arr = array();
-	
 	$result = CONN::get()->Execute("
 	SELECT
 		m.id,
@@ -307,12 +296,12 @@ function questoesMinisteriosPessoa($pessoaID){
 		$options .= "<option value=\"$i\">$i</option>";
 	endfor;
 
-	
 	$result = CONN::get()->Execute("
 	SELECT
 		m.id,
 		m.cd,
 		m.ds,
+		m.ds_cd_ministerios_gp,
 		r.nr_nota
 	FROM CON_CD_MINISTERIOS m
 	LEFT JOIN RP_MINISTERIOS r ON (r.id_cd_ministerios = m.id AND (r.id_cd_pessoa = ? OR r.id_cd_pessoa IS NULL))
@@ -325,10 +314,13 @@ function questoesMinisteriosPessoa($pessoaID){
 		$nr_nota = $rsitem['nr_nota'];
 		$cd = $rsitem['cd'];
 		$ds = $rsitem['ds'];
+		$da = $rsitem['ds_cd_ministerios_gp'];
 		
 		$opt = str_replace( "<option value=\"$nr_nota\">", "<option value=\"$nr_nota\" selected>", $options );
 		$arr[] = array(
-			"ds_qst" => "<div>$ds&nbsp;<select class=\"input-sm pull-right\" name=\"questao\" id-questao=\"$id\" tabindex=\"$tabindex\">$opt</select></div>"
+			"da" => $da,
+			"cd" => $cd,
+			"ds" => "<div>$ds&nbsp;<select class=\"input-sm pull-right\" name=\"questao\" id-questao=\"$id\" tabindex=\"$tabindex\">$opt</select></div>"
 		);
 	endforeach;
 	return array( "result" => fRetornaTesteMinisteriosQuantidades( $pessoaID ), "questoes" => $arr );
@@ -350,8 +342,6 @@ function setRsMinisterios( $parameters ){
 }
 
 function setRsMinisteriosPessoa($pessoaID,$id,$nt){
-	
-	
 	//SE RESPOSTA PREENCHIDA
 	if ( isset($nt) && !empty($nt) ):
 		$result = CONN::get()->Execute("SELECT * FROM RP_MINISTERIOS WHERE id_cd_ministerios = ? AND id_cd_pessoa = ?", array( $id, $pessoaID ) );
@@ -379,8 +369,6 @@ function finalizarMinisterios() {
 }
 
 function finalizarMinisteriosPessoa($pessoaID){
-	
-	
 	$donsPend = fRetornaTesteMinisteriosQuantidades( $pessoaID );
 
 	//SE EXISTE RESPOSTAS DE MINISTERIOS

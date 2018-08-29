@@ -46,15 +46,16 @@ function fRetornaTesteMinisteriosQuantidades($id){
 }
 
 function fCalculaValidade( $chave, $dhBaseCalculo ){
-	$retorno = new DateTime( strftime("%F %T", strtotime($dhBaseCalculo ) ) );
-	$result = CONN::get()->Execute("SELECT * FROM TB_REGRAS WHERE ch = ?", array("$chave|PZ_VALIDADE") );
+	$result = CONN::get()->Execute("SELECT * FROM TB_REGRAS WHERE ch = ? AND fg = 'S'", array("$chave|PZ_VALIDADE") );
 	if (!$result->EOF):
+		$retorno = new DateTime( strftime("%F %T", strtotime($dhBaseCalculo) ) );
 		$vls =  explode(":", $result->fields['vl'] );
 		if ( $vls[0] == "ANUAL" ):
 			$retorno->modify("+".$vls[1]." year");
 		endif;
+		return $retorno->format('Y-m-d H:i:s');
 	endif;
-	return $retorno->format('Y-m-d H:i:s');
+	return null;
 }
 
 //1d9b016bd1ed7124d83d84517e1ac2a3657819ea
