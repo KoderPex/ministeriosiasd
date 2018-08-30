@@ -36,6 +36,7 @@
 					<thead class="bordered-darkorange">
 						<tr role="row">
 							<th>Nome</th>
+							<th>C&oacute;digo</th>
 							<th>Minist&eacute;rio</th>
 							<th>Nota</th>
 						</tr>

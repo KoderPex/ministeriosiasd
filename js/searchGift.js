@@ -33,13 +33,16 @@ $(document).ready(function(){
 		},
 		columns: [
 			{	data: "nm",
-				width: "60%"
+				width: "56%"
+			},
+			{	data: "cd",
+				width: "7%"
 			},
 			{	data: "dm",
 				width: "30%"
 			},
 			{	data: "nt",
-				width: "10%"
+				width: "7%"
 			}
 		],
 		select: {

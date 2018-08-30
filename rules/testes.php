@@ -5,7 +5,7 @@ function fExistHistorico($id,$tp){
 
 function fQueryResult($id){
 	return CONN::get()->Execute("
-	    SELECT p.cd_email, p.nm, r.dh_conclusao, r.dh_fim_validade, r.tp, i.id_origem, i.ds_item, i.nr_item
+	    SELECT p.cd_email, p.nm, r.dh_conclusao, r.dh_fim_validade, r.tp, i.id_origem, i.ds_item, i.nr_item, i.cd_origem
 	      FROM HS_RESULTADO r
 	INNER JOIN HS_RESULT_ITEM i ON (i.id_hs_resultado = r.id)
 	INNER JOIN CD_PESSOA p ON (p.id = r.id_cd_pessoa)

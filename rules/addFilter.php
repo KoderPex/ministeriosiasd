@@ -8,8 +8,6 @@ responseMethod();
  ****************************/
 function getFilter( $parameters ) {
 	$domain = array();
-	
-	
 
 	$type = $parameters["type"];
 	

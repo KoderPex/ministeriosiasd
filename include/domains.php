@@ -2,14 +2,15 @@
 function getDomain($table){
 	$arr = array();
 	$result = CONN::get()->Execute("
-		SELECT id, ds 
+		SELECT id, ds, cd
 		  FROM $table 
 	  ORDER BY ds
 	");
 	foreach ($result as $k => $fields):
 		$arr[] = array(
 				"value"	=> $fields["id"],
-				"label"	=> $fields["ds"]
+				"label"	=> $fields["ds"],
+				"sub" => $fields["cd"]
 		);
 	endforeach;
 	return $arr;

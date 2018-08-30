@@ -127,9 +127,12 @@ class RESULTS extends TCPDF {
 		$this->setCellPaddings(1,0,1,0);
 		$this->setXY(5, $this->posY);
 		$this->Cell(20, 9, "Ordem", 0, false, 'C', true);
-		
+
 		$this->setXY(25, $this->posY);
-		$this->Cell(160, 9, $this->params["column"], 0, false, 'L', true);
+		$this->Cell(20, 9, "Código", 0, false, 'C', true);
+		
+		$this->setXY(45, $this->posY);
+		$this->Cell(140, 9, $this->params["column"], 0, false, 'L', true);
 		
 		$this->setXY(185, $this->posY);
 		$this->Cell(20, 9, $this->params["result"], 0, false, 'C', true);
@@ -148,21 +151,13 @@ class RESULTS extends TCPDF {
 		$this->setXY(5, $this->posY);
 		$this->Cell(20, 7, ++$this->ordem, 0, false, 'C', true, false, 1);
 		$this->setX(25);
-		$this->Cell(160, 7, $f["ds_item"], 0, false, 'L', true, false, 1);
+		$this->Cell(20, 7, $f["cd_origem"], 0, false, 'C', true, false, 1);
+		$this->setX(45);
+		$this->Cell(140, 7, $f["ds_item"], 0, false, 'L', true, false, 1);
 		$this->setX(185);
 		$this->Cell(20, 7, $f["nr_item"], 0, false, 'C', true, false, 1);
 		$this->posY+=7;
 		$this->lineAlt = !$this->lineAlt;
-	}
-	
-	public function addLineCount($result){
-		$this->posY+=2;
-		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 9);
-		$this->SetTextColor(255,255,255);
-		$this->SetFillColor(80,80,80);
-		$this->setCellPaddings(1,0,1,0);
-		$this->setXY(5, $this->posY);
-		$this->Cell(200, 6, "Total de Membros Ativos: ".$result->RecordCount(), 0, false, 'C', true);
 	}
 	
 	public function newPage() {
@@ -174,7 +169,7 @@ class RESULTS extends TCPDF {
 
 	public function download() {
 		$this->lastPage();
-		$this->Output("ListagemClasse_".date('Y-m-d_H:i:s').".pdf", "I");
+		$this->Output("ListagemResultado_".date('Y-m-d_H:i:s').".pdf", "I");
 	}
 }
 

@@ -110,7 +110,7 @@ $perfil = fSetActive( $arvore, fRequest("id") );
 	<script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/formValidation/bootstrap.min.js"></script>
     
     <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="<?php echo $GLOBALS['VirtualDir'];?>js/functions.lib.js"></script>
+    <script src="<?php echo $GLOBALS['VirtualDir'];?>js/functions.lib.js?<?php echo microtime();?>"></script>
     <script>jsLIB.rootDir = '<?php echo $GLOBALS['VirtualDir'];?>';</script>
     <script src="<?php echo $GLOBALS['VirtualDir'];?>js/dashboard.js?<?php echo microtime();?>"></script>
 </head>

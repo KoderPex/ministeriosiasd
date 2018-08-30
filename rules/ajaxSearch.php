@@ -54,7 +54,7 @@ function getQueryByFilterGifts( $parameters ) {
 
 	if (!empty($where)):
 		$query = "
-		SELECT hri.nr_item, cr.nm, cd.ds
+		SELECT hri.nr_item, cr.nm, cd.ds, cd.cd
 		FROM CON_RESULTADO cr
 		INNER JOIN HS_RESULT_ITEM hri ON (hri.id_hs_resultado = cr.id)
 		INNER JOIN CON_CD_DONS cd ON (cd.id = hri.id_origem)  
@@ -67,19 +67,17 @@ function getQueryByFilterGifts( $parameters ) {
 
 function getDons( $parameters ) {
 	$arr = array();
-
-	
 	$result = getQueryByFilterGifts( $parameters );
 	if (!is_null($result)):
 		foreach ($result as $k => $fields):
 			$arr[] = array(
 					"nm" => $fields["nm"],
+					"cd" => $fields["cd"],
 					"dm" => $fields["ds"],
 					"nt" => $fields["nr_item"]
 			);
 		endforeach;
 	endif;
-
 	return array( "result" => true, "dons" => $arr );
 }
 
@@ -135,7 +133,7 @@ function getQueryByFilterMinisters( $parameters ) {
 
 	if (!empty($where)):
 		$query = "
-		SELECT hri.nr_item, cr.nm, cm.ds
+		SELECT hri.nr_item, cr.nm, cm.ds, cm.cd
 		FROM CON_RESULTADO cr
 		INNER JOIN HS_RESULT_ITEM hri ON (hri.id_hs_resultado = cr.id)
 		INNER JOIN CON_CD_MINISTERIOS cm ON (cm.id = hri.id_origem)  
@@ -148,19 +146,17 @@ function getQueryByFilterMinisters( $parameters ) {
 
 function getMinisterios( $parameters ) {
 	$arr = array();
-
-	
 	$result = getQueryByFilterMinisters( $parameters );
 	if (!is_null($result)):
 		foreach ($result as $k => $fields):
 			$arr[] = array(
 					"nm" => $fields["nm"],
+					"cd" => $fields["cd"],
 					"mn" => $fields["ds"],
 					"nt" => $fields["nr_item"]
 			);
 		endforeach;
 	endif;
-
 	return array( "result" => true, "ministers" => $arr );
 }
 ?>

@@ -299,6 +299,7 @@ var jsLIB = {
 		var value = ( objSelect.hasAttr("opt-value") ? objSelect.attr("opt-value") : "value" );
 		var label = ( objSelect.hasAttr("opt-label") ? objSelect.attr("opt-label") : "label" );
 		var search = ( objSelect.hasAttr("opt-search") ? objSelect.attr("opt-search") : label );
+		var subtext = ( objSelect.hasAttr("opt-subtext") ? objSelect.attr("opt-subtext") : null );
 		var links = ( objSelect.hasAttr("opt-links") ? objSelect.attr("opt-links").split(";") : null );
 		var selected = ( objSelect.hasAttr("opt-selected") ? objSelect.attr("opt-selected") : null );
 		objSelect.children().remove();
@@ -311,10 +312,13 @@ var jsLIB = {
 					.attr("value",option[value])
 					.text(option[label]);
 			if (search && search != label){
-				obj.attr("data-tokens",option[search]+' '+option[label]);
+				obj.attr("data-tokens", [ option[search], option[label] ].join(' ') );
 			}
 			if (selected && option[selected] == 'S'){
 				obj.attr("selected","selected");
+			}
+			if (subtext && option[subtext]){
+				obj.attr("data-subtext",option[subtext]);
 			}
 			if (links) {
 				for (var i=0;i<links.length;i++){
@@ -417,7 +421,7 @@ var jsFilter = {
 						strAppend += " data-live-search=\"true\"";
 						strAppend += " data-actions-box=\"true\"";
 					}
-					strAppend += "></select>"+
+					strAppend += " opt-subtext=\"sub\"></select>"+
 					"</div>";
 
 				$("#divFilters").append(strAppend);
