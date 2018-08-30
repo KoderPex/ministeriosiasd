@@ -137,7 +137,7 @@ $perfil = fSetActive( $arvore, fRequest("id") );
                             <li>
                                 <a class="login-area dropdown-toggle" data-toggle="dropdown">
                                     <section>
-                                        <h2><span class="profile"><span><?php echo ucwords(mb_strtolower($pessoa['nm']));?></span></span></h2>
+                                        <h2><span class="profile"><span><?php echo ucwords(mb_strtolower(utf8_encode($pessoa['nm'])));?></span></span></h2>
                                     </section>
                                 </a>
                                 <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">

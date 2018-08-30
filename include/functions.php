@@ -77,7 +77,7 @@ function fGetPerfil( $cd = NULL ) {
 	while (!$result->EOF):
 		$child = fGetPerfil( $result->fields['cd'] );
 		$arr[ $result->fields['id'] ] = array( 
-			"opt"	 => $result->fields['ds_menu'],
+			"opt"	 => utf8_encode($result->fields['ds_menu']),
 			"ico"	 => $result->fields['ds_icon'],
 			"url"	 => $result->fields['ds_url'],
 			"active" => false,

@@ -153,7 +153,7 @@ class RESULTS extends TCPDF {
 		$this->setX(25);
 		$this->Cell(20, 7, $f["cd_origem"], 0, false, 'C', true, false, 1);
 		$this->setX(45);
-		$this->Cell(140, 7, $f["ds_item"], 0, false, 'L', true, false, 1);
+		$this->Cell(140, 7, utf8_encode($f["ds_item"]), 0, false, 'L', true, false, 1);
 		$this->setX(185);
 		$this->Cell(20, 7, $f["nr_item"], 0, false, 'C', true, false, 1);
 		$this->posY+=7;

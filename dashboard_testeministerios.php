@@ -31,8 +31,8 @@ if ( $testes["minis"]["nr_rsp"] > 0 ):
 				<table class="table table-bordered table-hover table-striped dataTable" id="simpledatatable" role="grid">
 					<thead class="bordered-darkorange">
 						<tr role="row">
-							<th>Área</th>
-							<th>Código</th>
+							<th>&Aacute;rea</th>
+							<th>C&oacute;digo</th>
 							<th>D&ecirc; sua nota de 1 a 10, apenas para o(s) minist&eacute;rio(s) de seu interesse conforme as &aacute;reas abaixo:</th>
 						</tr>
 					</thead>
@@ -81,7 +81,7 @@ foreach (fExistHistorico( $_SESSION['PESSOA']['id'], 'M' ) as $result):
 					?>
 					<tr>
 					<td><?php echo ++$ordem;?>&ordm;</td>
-					<td><?php echo $rsitem['ds_item'];?></td>
+					<td><?php echo utf8_encode($rsitem['ds_item']);?></td>
 					<td><?php echo $rsitem['nr_item'];?></td>
 					</tr>
 					<?php				
