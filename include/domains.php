@@ -9,7 +9,7 @@ function getDomain($table){
 	foreach ($result as $k => $fields):
 		$arr[] = array(
 				"value"	=> $fields["id"],
-				"label"	=> $fields["ds"],
+				"label"	=> utf8_encode($fields["ds"]),
 				"sub" => $fields["cd"]
 		);
 	endforeach;

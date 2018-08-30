@@ -71,9 +71,9 @@ function getDons( $parameters ) {
 	if (!is_null($result)):
 		foreach ($result as $k => $fields):
 			$arr[] = array(
-					"nm" => $fields["nm"],
+					"nm" => utf8_encode($fields["nm"]),
 					"cd" => $fields["cd"],
-					"dm" => $fields["ds"],
+					"dm" => utf8_encode($fields["ds"]),
 					"nt" => $fields["nr_item"]
 			);
 		endforeach;
@@ -150,9 +150,9 @@ function getMinisterios( $parameters ) {
 	if (!is_null($result)):
 		foreach ($result as $k => $fields):
 			$arr[] = array(
-					"nm" => $fields["nm"],
+					"nm" => utf8_encode($fields["nm"]),
 					"cd" => $fields["cd"],
-					"mn" => $fields["ds"],
+					"mn" => utf8_encode($fields["ds"]),
 					"nt" => $fields["nr_item"]
 			);
 		endforeach;
