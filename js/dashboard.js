@@ -13,7 +13,7 @@ function mapPrintResults(){
 
 		BootstrapDialog.show({
 			title: 'Visualizar PDF',
-			message: $(`<object style="width:100%;" data="${jsLIB.rootDir}report/printResult.php?id=${testeID}" type="application/pdf"><p>Seu navegador não tem um plugin pra PDF</p></object>`),
+			message: $(`<object id="oEmbedPrint" style="width:100%;" data="${jsLIB.rootDir}report/printResult.php?id=${testeID}" type="application/pdf"><p>Seu navegador não tem um plugin pra PDF</p></object>`),
 			type: BootstrapDialog.TYPE_DEFAULT,
 			size: BootstrapDialog.SIZE_WIDE,
 			draggable: false,
@@ -26,7 +26,10 @@ function mapPrintResults(){
 				action: function(dialogRef){
 					dialogRef.close();
 				}
-			}]	
+			}],
+			onshown: function(dialog) {
+				$("#oEmbedPrint").css("height", (window.innerHeight-200)+"px")
+            },
 		});
 		//window.open(jsLIB.rootDir+'report/printResult.php?id='+$(this).attr('id-teste'),'_blank','top=50,left=50,height=750,width=550,menubar=no,status=no,titlebar=no',true);
 	});

@@ -137,10 +137,10 @@ function objectToArray($d) {
 
 	if (is_array($d)) {
 		/*
-		 * Return array converted to object
-		 * Using __FUNCTION__ (Magic constant)
-		 * for recursive call
-		 */
+		* Return array converted to object
+		* Using __FUNCTION__ (Magic constant)
+		* for recursive call
+		*/
 		return array_map(__FUNCTION__, $d);
 	}
 	else {
