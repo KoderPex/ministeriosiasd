@@ -187,15 +187,15 @@ function finalizarDonsPessoa( $pessoaID ){
 		$id = CONN::get()->Insert_ID();
 		
 		//INSERE ITENS DO TESTE	
-		CONN::get()->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
-			SELECT $id AS id_hs_resultado, res.ds_item, res.nr_item, res.id
-			FROM (SELECT t.ds AS ds_item, t.id, SUM(c.nr_peso) AS nr_item
+		CONN::get()->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem, cd_origem ) 
+			SELECT $id AS id_hs_resultado, res.ds_item, res.nr_item, res.id, res.cd
+			FROM (SELECT t.ds AS ds_item, t.id, t.cd, SUM(c.nr_peso) AS nr_item
 				FROM RP_DONS r 
 			  INNER JOIN CON_QS_DONS q ON (r.id_qs_dons = q.id)
 			  INNER JOIN CON_CD_DONS t ON (t.id = q.id_cd_dons)
 			  INNER JOIN CD_DONS_RESP c ON (r.id_cd_dons_resp = c.id)
 			       WHERE r.id_cd_pessoa = ?
-			    GROUP BY t.ds, t.cd) res", 
+			    GROUP BY t.ds, t.id, t.cd) res", 
 			array( $pessoaID ) );
 		
 		//APAGA RESPOSTAS	
@@ -385,8 +385,8 @@ function finalizarMinisteriosPessoa($pessoaID){
 		$id = CONN::get()->Insert_ID();
 		
 		//INSERE ITENS DO TESTE	
-		CONN::get()->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem ) 
-			SELECT $id AS id_hs_resultado, c.ds, m.nr_nota, c.id
+		CONN::get()->Execute("INSERT INTO HS_RESULT_ITEM ( id_hs_resultado, ds_item, nr_item, id_origem, cd_origem ) 
+			SELECT $id AS id_hs_resultado, c.ds, m.nr_nota, c.id, c.cd
 			FROM RP_MINISTERIOS m
 			INNER JOIN CON_CD_MINISTERIOS c ON (c.id = m.id_cd_ministerios)
 			WHERE m.NR_NOTA IS NOT NULL
