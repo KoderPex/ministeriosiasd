@@ -3,15 +3,15 @@
 <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/datatable/dataTables.tableTools.min.js"></script>
 <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/datatable/dataTables.bootstrap.min.js"></script>
 <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/jquery-progress-bar.js"></script>
-<?php @require_once("rules/testes.php");?>
-<div class="row">
-	<?php
-	$testes = fVerificaTestes( $_SESSION['PESSOA']['id'] );
+<?php
+@require_once("rules/testes.php");
+$testes = fVerificaTestes( $_SESSION['PESSOA']['id'] );
 
-	//SE EXISTE TESTE DE DONS PENDENTE
-	if ( $testes["dons"]["nr_rsp"] > 0 ):
-	?>
-	<div class="col-xs-12 col-md-12 text-center"> 
+//SE EXISTE TESTE DE DONS PENDENTE
+if ( $testes["dons"]["nr_rsp"] > 0 ):
+?>
+<div class="row">
+	<div class="col-xs-12 col-md-12 text-center">
 		<a id="btnFinishDons" href="javascript:void(0);" class="btn btn-labeled btn-palegreen">
 			<i class="btn-label glyphicon glyphicon-floppy-saved"></i>Finalizar e mostrar meu resultado do Teste de Dons
 		</a>
@@ -40,14 +40,16 @@
 			</div>
 		</div>
 	</div>
-	<?php
-	endif;
+</div>
+<?php
+endif;
 	
-	$ultimoResultado = false;
-	//EXIBE RESULTADOS
-	foreach (fExistHistorico( $_SESSION['PESSOA']['id'], 'D' ) as $result):
-		?>
-		<div class="col-xs-12 col-md-12">
+$ultimoResultado = false;
+//EXIBE RESULTADOS
+foreach (fExistHistorico( $_SESSION['PESSOA']['id'], 'D' ) as $result):
+	?>
+	<div class="col-xs-12 col-md-12">
+		<div class="row">
 			<div class="well with-header">
 				<div class="header bg-blue">
 					<?php
@@ -84,8 +86,8 @@
 				</table>
 			</div>
 		</div>
-		<?php
-	endforeach;
-	?>
-</div>
+	</div>
+	<?php
+endforeach;
+?>
 <script src="<?php echo $GLOBALS['VirtualDir'];?>js/dashboard_testedons.js<?php echo "?".microtime();?>"></script>
