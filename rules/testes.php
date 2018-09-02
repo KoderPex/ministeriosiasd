@@ -70,7 +70,7 @@ function fVerificaTestes($id){
 		$result = CONN::get()->Execute("SELECT 1 FROM HS_RESULTADO WHERE id_cd_pessoa = ? AND dh_fim_validade > NOW() AND tp = ?", array( $id, 'D' ) );
 		if ($result ->EOF):
 			CONN::get()->Execute("INSERT INTO RP_DONS(id_cd_pessoa, id_qs_dons) VALUES (?,?) ", array($id,1) );
-			$arr["dons"] = $dons;
+			$arr["dons"] = fRetornaTesteDonsQuantidades($id);
 		endif;
 	else:
 		$arr["dons"] = $dons;
@@ -83,7 +83,7 @@ function fVerificaTestes($id){
 		$result = CONN::get()->Execute("SELECT 1 FROM HS_RESULTADO WHERE id_cd_pessoa = ? AND dh_fim_validade > NOW() AND tp = ?", array( $id, 'M' ) );
 		if ($result ->EOF):
 			CONN::get()->Execute("INSERT INTO RP_MINISTERIOS(id_cd_pessoa, id_cd_ministerios) VALUES (?,?) ", array($id,1) );
-			$arr["minis"] = $minis;
+			$arr["minis"] = fRetornaTesteMinisteriosQuantidades($id);
 		endif;
 	else:
 		$arr["minis"] = $minis;

@@ -305,7 +305,7 @@ function questoesMinisteriosPessoa($pessoaID){
 		r.nr_nota
 	FROM CON_CD_MINISTERIOS m
 	LEFT JOIN RP_MINISTERIOS r ON (r.id_cd_ministerios = m.id AND (r.id_cd_pessoa = ? OR r.id_cd_pessoa IS NULL))
-	ORDER BY m.ds
+	ORDER BY m.id_cd_ministerios_gp, m.cd
 	", array( $pessoaID ) );
 	foreach ($result as $rsitem):
 		++$tabindex;
