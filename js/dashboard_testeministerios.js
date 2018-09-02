@@ -16,7 +16,7 @@ $(document).ready(function(){
 		language: {
 			search: "",
 			searchPlaceholder: "Procurar...",
-			info: "_START_ a _END_ de _TOTAL_ sugest&otilde;es de minist&eacute;rios",
+			info: "_TOTAL_ sugest&otilde;es de minist&eacute;rios",
 			loadingRecords: "Aguarde - carregando...",
 			paginate: {
 				first: '<<',
@@ -31,11 +31,11 @@ $(document).ready(function(){
 				sortable: false
 			},
 			{	data: 'cd',
-				width: "6%",
-				sortable: false
+				width: "8%",
+				sortable: true
 			},
 			{	data: 'ds',
-				width: "94%",
+				width: "92%",
 				sortable: false
 			}
 		],
@@ -47,7 +47,7 @@ $(document).ready(function(){
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="2">'+group+'</td></tr>'
+                        '<tr style="background-color:#707070;color:#ffffff;text-transform:uppercase"><td colspan="2">'+group+'</td></tr>'
                     );
  
                     last = group;
