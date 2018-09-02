@@ -113,7 +113,7 @@ class RESULTS extends TCPDF {
 		$this->setXY(45, $this->posY);
 		$this->Cell(125, 7, $this->params["cd_email"], 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
 		$this->setXY(170, $this->posY);
-		$this->Cell(35, 7, strftime("%d/%m/%Y %H:%M",strtotime($this->params["dh_fim_validade"])), 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
+		$this->Cell(35, 7, is_null($this->params["dh_fim_validade"]) ? "" : strftime("%d/%m/%Y %H:%M",strtotime($this->params["dh_fim_validade"])), 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
 		$this->SetFillColor(255,255,255);
 		$this->RoundedRect(45, $this->posY, 125, 8, 1, '0010', 'D', $this->stLine2);
 		$this->RoundedRect(170, $this->posY, 35, 8, 1, '0100', 'D', $this->stLine2);
