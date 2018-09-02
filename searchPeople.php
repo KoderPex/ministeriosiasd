@@ -39,36 +39,57 @@
 	</div>
 </div>
 
-<div class="col-xs-12 col-md-12" id="divGridSearch" style="display:block">
+<div id="divGridSearch" style="display:block">
 	<div class="row">
-		<div class="widget">
-			<div class="widget-header bordered-bottom bordered-yellow">
-				<div class="widget-buttons">
-                	<a href="#" data-toggle="maximize">
-                    	<i class="fa fa-expand"></i>
-					</a>
-					<a href="#" data-toggle="collapse">
-						<i class="fa fa-minus"></i>
-					</a>
-					<a href="#" data-toggle="dispose">
-						<i class="fa fa-times"></i>
-					</a>
+		<div class="col-xs-12 col-md-12">
+		<?php fDataFilters( 
+			array( 
+				"filterTo" => "#peopleDatatable",
+				"filters" => 
+					array(
+						array( "value" => "D", "label" => "Dom" ),
+						array( "value" => "DI", "label" => "Pontua&ccedil;&atilde;o Dons igual" ),
+						array( "value" => "DA", "label" => "Pontua&ccedil;&atilde;o Dons maior", "unique" => true ),
+						array( "value" => "DE", "label" => "Pontua&ccedil;&atilde;o Dons menor", "unique" => true ),
+
+						array( "value" => "M", "label" => "Minist&eacute;rio" ),
+						array( "value" => "MI", "label" => "Nota Minist&eacute;rio igual" ),
+						array( "value" => "MA", "label" => "Nota Minist&eacute;rio maior", "unique" => true ),
+						array( "value" => "ME", "label" => "Nota Minist&eacute;rio menor", "unique" => true )
+					)
+			)
+		);?>
+		</div>
+		<div class="col-xs-12 col-md-12">
+			<div class="widget">
+				<div class="widget-header bordered-bottom bordered-yellow">
+					<div class="widget-buttons">
+						<a href="#" data-toggle="maximize">
+							<i class="fa fa-expand"></i>
+						</a>
+						<a href="#" data-toggle="collapse">
+							<i class="fa fa-minus"></i>
+						</a>
+						<a href="#" data-toggle="dispose">
+							<i class="fa fa-times"></i>
+						</a>
+					</div>
 				</div>
+				<div class="widget-body">
+					<table class="table table-bordered table-hover table-striped dataTable" id="peopleDatatable" role="grid">
+						<thead class="bordered-darkorange">
+							<tr role="row">
+								<th></th>
+								<th>Nome</th>
+								<th>Email</th>
+								<th>Dons</th>
+								<th>Minist&eacute;rios</th>
+							</tr>
+						</thead>
+						<tbody/>
+					</table>
+				</div>	
 			</div>
-			<div class="widget-body">
-				<table class="table table-bordered table-hover table-striped dataTable" id="peopleDatatable" role="grid">
-					<thead class="bordered-darkorange">
-						<tr role="row">
-							<th></th>
-							<th>Nome</th>
-							<th>Email</th>
-							<th>Dons</th>
-							<th>Minist&eacute;rios</th>
-						</tr>
-					</thead>
-					<tbody/>
-				</table>
-			</div>	
 		</div>
 	</div>
 	<div class="row">

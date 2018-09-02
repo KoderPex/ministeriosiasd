@@ -24,8 +24,12 @@ $(document).ready(function(){
 			type	: "POST",
 			url	: jsLIB.rootDir+"rules/ajaxPeople.php",
 			data	: function (d) {
-				d.MethodName = "getPeople"
-			},
+					d.MethodName = "getPeople",
+					d.data = { 
+							 filtro: 'T',
+							 filters: jsFilter.jSON()
+						}
+				},
 			dataSrc: "people"
 		},
 		columns: [

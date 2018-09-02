@@ -33,7 +33,7 @@ $(document).ready(function(){
 		},
 		columns: [
 			{	data: "nm",
-				width: "56%"
+				width: "54%"
 			},
 			{	data: "cd",
 				width: "7%"
@@ -42,7 +42,7 @@ $(document).ready(function(){
 				width: "30%"
 			},
 			{	data: "nt",
-				width: "7%"
+				width: "9%"
 			}
 		],
 		select: {

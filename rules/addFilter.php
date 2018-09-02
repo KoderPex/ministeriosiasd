@@ -22,8 +22,8 @@ function getFilter( $parameters ) {
 	elseif ( $type == "D" ):
 		$domain = getDomain("CON_CD_DONS");
 		
-	//NOTAS DE DONS - NI-IGUAL, NA-MAIOR, NE-MENOR
-	elseif ( $type == "NI" || $type == "NA" || $type == "NE" ):
+	//PONTUACAO DE DONS - NI-IGUAL, NA-MAIOR, NE-MENOR
+	elseif ( $type == "DI" || $type == "DA" || $type == "DE" ):
 		$domain = array();
 		for ($i=1;$i<=24;$i++):
 			$domain[] = array( "value" => $i, "label" => $i );

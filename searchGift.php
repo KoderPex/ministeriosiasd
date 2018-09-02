@@ -9,9 +9,9 @@
 			"filters" => 
 				array( 
 					array( "value" => "D", "label" => "Dom" ),
-					array( "value" => "NI", "label" => "Nota igual" ),
-					array( "value" => "NA", "label" => "Nota maior", "unique" => true ),
-					array( "value" => "NE", "label" => "Nota menor", "unique" => true )
+					array( "value" => "DI", "label" => "Pontua&ccedil;&atilde;o igual" ),
+					array( "value" => "DA", "label" => "Pontua&ccedil;&atilde;o maior", "unique" => true ),
+					array( "value" => "DE", "label" => "Pontua&ccedil;&atilde;o menor", "unique" => true )
 				)
 		) 
 	);?>
@@ -36,9 +36,9 @@
 					<thead class="bordered-darkorange">
 						<tr role="row">
 							<th>Nome</th>
-							<th>Código</th>
+							<th>C&oacute;digo</th>
 							<th>Dom</th>
-							<th>Nota</th>
+							<th>Pontua&ccedil;&atilde;o</th>
 						</tr>
 					</thead>
 					<tbody/>

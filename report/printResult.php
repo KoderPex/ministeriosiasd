@@ -94,7 +94,7 @@ class RESULTS extends TCPDF {
 		$this->SetFillColor(255,255,255);
 		$this->SetTextColor(0,0,0);
 		$this->setXY(45, $this->posY);
-		$this->Cell(125, 7, $this->params["nm"], 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
+		$this->Cell(125, 7, utf8_encode($this->params["nm"]), 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
 		$this->setXY(170, $this->posY);
 		$this->Cell(35, 7, strftime("%d/%m/%Y %H:%M",strtotime($this->params["dh_conclusao"])), 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
 		

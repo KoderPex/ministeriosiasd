@@ -15,11 +15,11 @@ function getQueryByFilterGifts( $parameters ) {
 			$notStr = ( $not ? "NOT " : "" );
 			if ( $key == "D" ):
 				$where .= " AND cd.ID ".$notStr."IN";
-			elseif ( $key == "NI" ):
+			elseif ( $key == "DI" ):
 				$where .= " AND hri.nr_item ".$notStr."IN";
-			elseif ( $key == "NA" ):
+			elseif ( $key == "DA" ):
 				$where .= " AND hri.nr_item > ";
-			elseif ( $key == "NE" ):
+			elseif ( $key == "DE" ):
 				$where .= " AND hri.nr_item < ";
 			else:
 				$where .= " AND";
