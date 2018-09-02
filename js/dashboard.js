@@ -13,24 +13,35 @@ function mapPrintResults(){
 
 		BootstrapDialog.show({
 			title: 'Visualizar PDF',
-			message: $(`<object id="oEmbedPrint" style="width:100%;" data="${jsLIB.rootDir}report/printResult.php?id=${testeID}" type="application/pdf"><p>Seu navegador não tem um plugin pra PDF</p></object>`),
+			message: $(`<embed id="oEmbedPrint" width="100%" height="100%" src="${jsLIB.rootDir}report/printResult.php?id=${testeID}" type="application/pdf" />`),
 			type: BootstrapDialog.TYPE_DEFAULT,
 			size: BootstrapDialog.SIZE_WIDE,
 			draggable: false,
 			closable: false,
 			closeByBackdrop: false,
 			closeByKeyboard: false,
-			buttons: [{
-				label: 'Fechar',
-				cssClass: 'btn-primary',
-				action: function(dialogRef){
-					dialogRef.close();
+			buttons: [
+				{
+					icon: 'glyphicon glyphicon-print',
+					label: 'Imprimir',
+					cssClass: 'btn-success',
+					action: function(dialogRef){
+						const printW = window.open(`${jsLIB.rootDir}report/printResult.php?id=${testeID}`);
+						printW.print();
+					}
+				},
+				{
+					icon: 'glyphicon glyphicon-ban-circle',
+					label: 'Fechar',
+					cssClass: 'btn-primary',
+					action: function(dialogRef){
+						dialogRef.close();
+					}
 				}
-			}],
+			],
 			onshown: function(dialog) {
 				$("#oEmbedPrint").css("height", (window.innerHeight-200)+"px")
             },
 		});
-		//window.open(jsLIB.rootDir+'report/printResult.php?id='+$(this).attr('id-teste'),'_blank','top=50,left=50,height=750,width=550,menubar=no,status=no,titlebar=no',true);
 	});
 }

@@ -50,7 +50,7 @@ $(document).ready(function(){
 		            	render: function (data, type, full, meta ) {
 						return (data == null 
 							? "<a href=\"#\" name=\"btnDons\" class=\"btn btn-warning btn-xs\" id-pessoa=\""+full.id+"\"><i class=\"fa fa-plus\"></i> Adicionar</a>"
-							: "<a href=\"#\" name=\"printResult\" id-teste="+data+" class=\"btn btn-success shiny btn-xs\"><i class=\"fa fa-print\"></i> Imprimir</a>" 
+							: "<a href=\"#\" name=\"printResult\" id-teste="+data+" class=\"btn btn-success shiny btn-xs\"><i class=\"fa fa-search-plus\"></i> Visualizar</a>" 
 						);
 					}
 				},
@@ -59,7 +59,7 @@ $(document).ready(function(){
 	            	render: function (data, type, full, meta ) {
 					return (data == null 
 						? "<a href=\"#\" name=\"btnMini\" class=\"btn btn-warning btn-xs\" id-pessoa=\""+full.id+"\"><i class=\"fa fa-plus\"></i> Adicionar</a>"
-						: "<a href=\"#\" name=\"printResult\" id-teste="+data+" class=\"btn btn-success shiny btn-xs\"><i class=\"fa fa-print\"></i> Imprimir</a>" 
+						: "<a href=\"#\" name=\"printResult\" id-teste="+data+" class=\"btn btn-success shiny btn-xs\"><i class=\"fa fa-search-plus\"></i> Visualizar</a>" 
 					);
 				}				
 			},

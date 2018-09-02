@@ -59,7 +59,7 @@ foreach (fExistHistorico( $_SESSION['PESSOA']['id'], 'D' ) as $result):
 						endif;
 					?>
 					Conclu&iacute;do&nbsp;em:&nbsp;<?php echo strftime("%d/%m/%Y", strtotime($result['dh_conclusao']));?>
-					<span class="pull-right" style="cursor:pointer" name="printResult" id-teste="<?php echo $result['id'];?>"><i class="fa fa-print fa-2x"></i></span>
+					<span class="pull-right" style="cursor:pointer" name="printResult" id-teste="<?php echo $result['id'];?>"><i class="fa fa-search-plus fa-2x"></i></span>
 				</div>
 				<table class="table table-hover">
 					<thead class="bordered-darkorange">
