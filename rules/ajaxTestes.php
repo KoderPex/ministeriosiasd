@@ -10,7 +10,7 @@ function getDetailGift( $parameters ) {
 		$arr = array( 
 			"ds" => utf8_encode($rsitem['ds']),
 			"ds_explain" => utf8_encode($rsitem['ds_explain']),
-			"ds_ref_biblica" => $utf8_encode(rsitem['ds_ref_biblica']),
+			"ds_ref_biblica" => utf8_encode($rsitem['ds_ref_biblica']),
 			"ds_tarefas" => utf8_encode($rsitem['ds_tarefas'])
 		);
 	endforeach;
