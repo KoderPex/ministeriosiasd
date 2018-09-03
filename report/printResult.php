@@ -41,6 +41,10 @@ class RESULTS extends TCPDF {
 		$this->SetKeywords('Dons, Serviço, Ministérios, Habilidades, Servir, Igreja Adventista do Sétimo Dia, IASD');
 		$this->setImageScale(PDF_IMAGE_SCALE_RATIO);
 	}
+
+	private function legendaResultado($nota){
+		return $this->params["tp"] == "M" ? legendaDisposicao($nota) : $nota;
+	}
 	
 	public function setResult( $fields ) {
 		$this->params = $fields;
@@ -51,7 +55,7 @@ class RESULTS extends TCPDF {
 		elseif ( $this->params["tp"] == "M" ):
 			$this->params["title"] = "Resultado do Teste de Ministérios";
 			$this->params["column"] = "Ministério";
-			$this->params["result"] = "Nota";
+			$this->params["result"] = "Disposição";
 		endif;
 		$this->SetTitle($this->params["title"]);
 	}
@@ -132,10 +136,10 @@ class RESULTS extends TCPDF {
 		$this->Cell(20, 9, "Código", 0, false, 'C', true);
 		
 		$this->setXY(45, $this->posY);
-		$this->Cell(140, 9, $this->params["column"], 0, false, 'L', true);
+		$this->Cell(135, 9, $this->params["column"], 0, false, 'L', true);
 		
-		$this->setXY(185, $this->posY);
-		$this->Cell(20, 9, $this->params["result"], 0, false, 'C', true);
+		$this->setXY(180, $this->posY);
+		$this->Cell(25, 9, $this->params["result"], 0, false, 'C', true);
 		$this->posY += 9;
 		$this->SetTextColor(0,0,0);
 	}
@@ -153,9 +157,9 @@ class RESULTS extends TCPDF {
 		$this->setX(25);
 		$this->Cell(20, 7, $f["cd_origem"], 0, false, 'C', true, false, 1);
 		$this->setX(45);
-		$this->Cell(140, 7, utf8_encode($f["ds_item"]), 0, false, 'L', true, false, 1);
-		$this->setX(185);
-		$this->Cell(20, 7, $f["nr_item"], 0, false, 'C', true, false, 1);
+		$this->Cell(135, 7, utf8_encode($f["ds_item"]), 0, false, 'L', true, false, 1);
+		$this->setX(180);
+		$this->Cell(25, 7, $this->legendaResultado($f["nr_item"]), 0, false, 'C', true, false, 1);
 		$this->posY+=7;
 		$this->lineAlt = !$this->lineAlt;
 	}

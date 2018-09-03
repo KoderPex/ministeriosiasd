@@ -33,14 +33,15 @@ function getFilter( $parameters ) {
 	elseif ( $type == "M" ):
 		$domain = getDomain("CON_CD_MINISTERIOS");
 		
-	//NOTAS DE MINISTERIOS - MI-IGUAL, MA-MAIOR, ME-MENOR
-	elseif ( $type == "MI" || $type == "MA" || $type == "ME" ):
-		$domain = array();
-		for ($i=1;$i<=10;$i++):
-			$domain[] = array( "value" => $i, "label" => $i );
-		endfor;
+	//DISPONSIÇÃO DE MINISTERIOS - MI-IGUAL
+	elseif ( $type == "MI" ):
+		$domain = array( 
+			array( "value" => 10, "label" => "SIM" ),
+			array( "value" => 1, "label" => "NÃO" ),
+			array( "value" => 4, "label" => "TALVEZ" )
+		);
 		
-		endif;
+	endif;
 
 	return array( "result" => true, "domain" => $domain );
 }

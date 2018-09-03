@@ -41,7 +41,15 @@ function getQueryByFilter( $parameters ) {
 			$where .= " (";
 			if ( is_array( $v["vl"] ) ):
 				foreach ($v["vl"] as $value):
-					if ( empty($value) ):
+					if ( $key == "MI" ):
+						if ( $value == 10 ):
+							$where .= "8,9,10";
+						elseif ( $value == 4 ):
+							$where .= "4,5,6,7";
+						else:
+							$where .= "1,2,3";
+						endif;
+					elseif ( empty($value) ):
 						$aWhere[] = "NULL";
 						$where .= (!$prim ? "," : "" )."?";
 					else:

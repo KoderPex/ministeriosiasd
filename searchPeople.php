@@ -53,9 +53,7 @@
 						array( "value" => "DE", "label" => "Pontua&ccedil;&atilde;o Dons menor", "unique" => true ),
 
 						array( "value" => "M", "label" => "Minist&eacute;rio" ),
-						array( "value" => "MI", "label" => "Nota Minist&eacute;rio igual" ),
-						array( "value" => "MA", "label" => "Nota Minist&eacute;rio maior", "unique" => true ),
-						array( "value" => "ME", "label" => "Nota Minist&eacute;rio menor", "unique" => true )
+						array( "value" => "MI", "label" => "Compromisso" )
 					)
 			)
 		);?>

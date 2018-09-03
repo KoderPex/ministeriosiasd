@@ -58,7 +58,15 @@ function fCalculaValidade( $chave, $dhBaseCalculo ){
 	return null;
 }
 
-//1d9b016bd1ed7124d83d84517e1ac2a3657819ea
+function legendaDisposicao($nota){
+	if ($nota >= 8):
+		return "SIM";
+	elseif ($nota >= 4):
+		return "TALVEZ";
+	endif;
+	return "NÃO";
+}
+
 function fVerificaTestes($id){
 	$arr = array();
 
