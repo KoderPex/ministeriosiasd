@@ -3,10 +3,14 @@
 @include_once("testes.php");
 responseMethod();
 
+function downloads(){
+	$arr = array();
+
+	return array( "downloads" => $arr );
+}
+
 function painel() {
 	session_start();
-	
-	
 	$arr = array();
 
 	//SE EXISTE TESTE DE DONS PENDENTE
