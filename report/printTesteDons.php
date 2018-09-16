@@ -124,7 +124,7 @@ class TESTEMIN extends TCPDF {
 		$this->SetLineStyle($this->stLine2);
 		$this->setCellPaddings(1,0,1,0);
 		$this->setXY(5, $this->posY);
-		$this->Cell(155, 9, mb_strtoupper(utf8_encode($f["ds_cd_ministerios_gp"]), "UTF-8"), 'TB', false, 'C', true, false);
+		$this->Cell(155, 9, utf8_encode(mb_strtoupper($f["ds_cd_ministerios_gp"])), 'TB', false, 'C', true, false);
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 8);
 		$this->setXY(160, $this->posY);
 		$this->Cell(15, 9, "SIM", 'TBL', false, 'C', true, false);
@@ -182,10 +182,9 @@ class TESTEMIN extends TCPDF {
 		$this->setXY(0,0);
 	}
 
-	public function download($option) {
-		$option = !isset($option) || empty($option) ? "D" : $option;
+	public function download() {
 		$this->lastPage();
-		$this->Output("TesteMinisterios_".date('Y-m-d_H:i:s').".pdf", $option);
+		$this->Output("TesteMinisterios_".date('Y-m-d_H:i:s').".pdf", "D");
 	}
 }
 
@@ -211,6 +210,6 @@ foreach ( $result as $ra => $f ):
 	endif;
 endforeach;
 
-$pdf->download(fRequest("option"));
+$pdf->download();
 exit;
 ?>

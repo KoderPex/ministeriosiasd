@@ -3,10 +3,42 @@
 @include_once("testes.php");
 responseMethod();
 
-function downloads(){
-	$arr = array();
+function downloads($parameters){
+	function color($pct = 0){
+		if ($pct < 50):
+			return "#ff0000";
+		elseif ($pct > 50):
+			return "#0000ff";
+		endif;
+		return "#00ff00";
+	}
 
-	return array( "downloads" => $arr );
+	if ( isset($parameters["update"]) && !empty($parameters["update"]) ):
+		CONN::get()->Execute("UPDATE CT_DOWNLOADS SET qt = qt+1 WHERE tp = ?", array($parameters["update"]) );
+	endif;
+
+	$rsTotal = CONN::get()->Execute("SELECT SUM(qt) AS qt FROM CT_DOWNLOADS");
+	$total = $rsTotal->fields["qt"];
+	$rsDons = CONN::get()->Execute("SELECT qt FROM CT_DOWNLOADS WHERE tp = 'D'");
+	$dons = $rsDons->fields["qt"];
+	$rsMini = CONN::get()->Execute("SELECT qt FROM CT_DOWNLOADS WHERE tp = 'M'");
+	$mini = $rsMini->fields["qt"];
+
+	$pcDons = round(($dons / $total) * 100, 0);
+	$pcMini = round(($mini / $total) * 100, 0);
+
+	return array( "downloads" => array(
+		"divDons" => array( 
+			"qt" => $dons * 1,
+			"pc" => $pcDons,
+			"cl" => color($pcDons)
+		),
+		"divMini" => array( 
+			"qt" => $mini * 1,
+			"pc" => $pcMini,
+			"cl" => color($pcMini)
+		)
+	));
 }
 
 function painel() {

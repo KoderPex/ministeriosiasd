@@ -173,11 +173,11 @@ $perfil = fSetActive( $arvore, fRequest("id") );
         <div class="page-container">
             <div class="page-sidebar" id="sidebar">
                 <ul class="nav sidebar-menu">
-					<div class="sidebar-header-wrapper">
+					<!-- <div class="sidebar-header-wrapper">
 						<input type="text" class="searchinput">
 						<i class="searchicon fa fa-search"></i>
 						<div class="searchhelper"></div>
-					</div>
+					</div> -->
 					<?php $activeOpt = fMontaMenu( $perfil );?>
                 </ul>
             </div>
