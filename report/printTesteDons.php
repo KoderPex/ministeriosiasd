@@ -2,7 +2,7 @@
 @require_once("../include/functions.php");
 @require_once("../assets/tcpdf/tcpdf.php");
 
-class TESTEMIN extends TCPDF {
+class TESTEDONS extends TCPDF {
 	
 	//lines styles
 	private $stLine;
@@ -47,7 +47,7 @@ class TESTEMIN extends TCPDF {
 	
 	public function setResult( $fields ) {
 		$this->params = $fields;
-		$this->params["title"] = "Teste de Ministérios";
+		$this->params["title"] = "Teste de Dons";
 		$this->SetTitle($this->params["title"]);
 	}
 
@@ -58,7 +58,7 @@ class TESTEMIN extends TCPDF {
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'N', 6);
 		//Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=0, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M')
 		$this->SetX(5);
-		$this->Cell(40, 3, "Teste de Ministérios - Versão: ". strftime("%d/%m/%Y",strtotime($this->params["dt_ini_valid"])), 0, false, 'L');
+		$this->Cell(40, 3, "Teste de Dons", 0, false, 'L');
 		$this->SetX(46);
 		$this->Cell(125, 3, "www.ministeriosiasd.com.br", 0, false, 'C');
 		$this->SetX(172);
@@ -90,18 +90,13 @@ class TESTEMIN extends TCPDF {
 		$this->SetFillColor(120,120,120);
 		$this->SetTextColor(255,255,255);
 		$this->setXY(45, $this->posY);
-		$this->Cell(125, 6, "Email", 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
-		$this->setXY(170, $this->posY);
-		$this->Cell(35, 6, "Versão", 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
+		$this->Cell(160, 6, "Email", 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
 		$this->posY += 6;
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'N', 10);
 		$this->SetFillColor(255,255,255);
 		$this->SetTextColor(0,0,0);
 		$this->setXY(45, $this->posY);
 		$this->Cell(125, 7, "", 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
-		$this->SetFillColor(255,255,255);
-		$this->setXY(170, $this->posY);
-		$this->Cell(35, 8, strftime("%d/%m/%Y",strtotime($this->params["dt_ini_valid"])), 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
 		$this->RoundedRect(45, $this->posY, 160, 8, 1, '0110', 'D', $this->stLine);
 		$this->posY += 10;
 	}
@@ -114,6 +109,15 @@ class TESTEMIN extends TCPDF {
 			$this->headerFirstPage();
 		endif;
 		$this->grupoAtual = "";
+	}
+
+	public function addGrupo($f){
+		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 12);
+		$this->SetFillColor(240,240,0);
+		$this->SetTextColor(0,0,0);
+		$this->setXY(5, $this->posY);
+		$this->Cell(200, 9, "Selecione a resposta que melhor se encaixa a você para cada questão abaixo:", 0, false, 'C', true, false);
+
 	}
 
 	public function addHeaderGrupo($f){
@@ -182,34 +186,26 @@ class TESTEMIN extends TCPDF {
 		$this->setXY(0,0);
 	}
 
-	public function download() {
+	public function download($option) {
+		$option = !isset($option) || empty($option) ? "D" : $option;
 		$this->lastPage();
-		$this->Output("TesteMinisterios_".date('Y-m-d_H:i:s').".pdf", "D");
+		$this->Output("TesteDons_".date('Y-m-d_H:i:s').".pdf", $option);
 	}
 }
 
-$pdf = new TESTEMIN();
+$pdf = new TESTEDONS();
 $result = CONN::get()->Execute("
-	SELECT * 
-	FROM CON_CD_MINISTERIOS
-	ORDER BY ID_CD_MINISTERIOS_GP, CD
+	SELECT DISTINCT cd_cd_dons_resp
+	FROM CON_QS_DONS
+	ORDER BY 1
 ");
 
 $pdf->setResult( $result->fields );
 $pdf->newPage();
 foreach ( $result as $ra => $f ):
-	$pdf->startTransaction();
-	$start_page = $pdf->getPage();
-	$pdf->addLine($f);
-	if  ($pdf->getNumPages() != $start_page):
-		$pdf->rollbackTransaction(true);
-		$pdf->newPage();
-		$pdf->addLine($f);
-	else:
-		$pdf->commitTransaction();     
-	endif;
+	$pdf->addGrupo($f);
 endforeach;
 
-$pdf->download();
+$pdf->download(fRequest("option"));
 exit;
 ?>

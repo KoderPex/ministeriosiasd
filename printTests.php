@@ -8,7 +8,7 @@
 <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/charts/flot/jquery.flot.tooltip.min.js"></script>
 <script src="<?php echo $GLOBALS['VirtualDir'];?>assets/js/charts/flot/jquery.flot.orderBars.js"></script>
 <div class="row">
-	<!-- <div id="divDons" class="col-lg-2 col-sm-4 col-xs-6" style="cursor:pointer">
+	<div id="divDons" class="col-lg-2 col-sm-4 col-xs-6" style="cursor:pointer">
 		<div class="databox databox-lg databox-vertical databox-inverted bg-white databox-shadowed">
 			<div class="databox-top">
 				<div class="databox-piechart">
@@ -19,11 +19,11 @@
 				</div>
 			</div>
 			<div class="databox-bottom no-padding text-align-center">
-				<span class="databox-number lightcarbon no-margin" id="divData">0 downloads</span>
-				<span class="databox-text lightcarbon no-margin">TESTE DE DONS</span>
+				<span class="databox-number lightcarbon no-margin">Teste de Dons</span>
+				<span class="databox-text lightcarbon no-margin" id="divData">0 downloads</span>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<div id="divMini" class="col-lg-2 col-sm-4 col-xs-6" style="cursor:pointer">
 		<div class="databox databox-lg databox-vertical databox-inverted bg-white databox-shadowed">
 			<div class="databox-top">
@@ -35,11 +35,11 @@
 				</div>
 			</div>
 			<div class="databox-bottom no-padding text-align-center">
-				<span class="databox-number lightcarbon no-margin" id="divData">0 downloads</span>
-				<span class="databox-text lightcarbon no-margin">TESTE DE MINISTÉRIOS</span>
+				<span class="databox-number lightcarbon no-margin">Teste de Ministérios</span>
+				<span class="databox-text lightcarbon no-margin" id="divData">0 downloads</span>
 			</div>
 		</div>
 	</div>
 </div>
 
-<script src="<?php echo $GLOBALS['VirtualDir'];?>js/printTests.js?12345"></script>
+<script src="<?php echo $GLOBALS['VirtualDir'];?>js/printTests.js<?php echo "?".microtime();?>"></script>

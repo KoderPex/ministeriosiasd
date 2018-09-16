@@ -20,7 +20,7 @@ function updateGraphs(update = ''){
 			$(`#${barId}`).find("#divColor").data('easyPieChart').options.barColor = values.cl;
 			$(`#${barId}`).find("#divColor").data('easyPieChart').update(values.pc);
 		}
-		// setGraph("divDons");
+		setGraph("divDons");
 		setGraph("divMini");
 	});
 }
