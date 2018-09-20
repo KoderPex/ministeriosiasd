@@ -83,7 +83,7 @@ class TESTEDONS extends TCPDF {
 		$this->SetFillColor(255,255,255);
 		$this->SetTextColor(0,0,0);
 		$this->setXY(45, $this->posY);
-		$this->Cell(160, 7, utf8_encode($this->params["nm"]), 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
+		$this->Cell(160, 7, "", 'TLR', 1, 'C', 1, '', 0, false, 'T', 'C');
 
 		$this->posY += 7;
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 9);
@@ -112,15 +112,48 @@ class TESTEDONS extends TCPDF {
 	}
 
 	public function addGrupo($f){
+		$this->addHeaderGrupo($f);
+	}
+
+	public function addHeaderGrupo($f){
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 12);
 		$this->SetFillColor(240,240,0);
 		$this->SetTextColor(0,0,0);
 		$this->setXY(5, $this->posY);
 		$this->Cell(200, 9, "Selecione a resposta que melhor se encaixa a você para cada questão abaixo:", 0, false, 'C', true, false);
+		$this->posY += 13;
 
-	}
+		$this->SetFillColor(255,255,255);
+		$this->SetTextColor(0,0,0);
+		if (!empty($f["ds_prefixo"])):
+			$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 12);
+			$this->setXY(5, $this->posY);
+			$this->Cell(160, 7, $f["ds_prefixo"], 'TLRB', 1, 'C', 1, '', 0, false, 'C', 'L');
+			$this->posY += 7;
+		endif;
 
-	public function addHeaderGrupo($f){
+		$this->SetFont(PDF_FONT_NAME_MAIN, 'N', 10);
+		$this->StartTransform();
+		$this->Rotate(90);
+		$opcoes = CONN::get()->Execute("
+			SELECT ds
+			FROM CD_DONS_RESP
+			WHERE cd = ?
+			ORDER BY nr_seq
+		", array($f["cd_cd_dons_resp"]) );
+		$x = 0;
+		$this->posY -= 4;
+		foreach ($opcoes as $op => $fo):
+			$this->setXY($x, $this->posY);
+			$this->Cell(30, 7, $fo["ds"], 'TLRB', 1, 'L', 1, '', 0, false, 'L', 'L');
+			// $this->Text($x, $this->posY, $fo["ds"], false, false, true, 0, 0, '', 0, '', 0, false, 'T', 'T');
+			$this->posY += 7;
+			//$x += 10;
+		endforeach;
+		$this->StopTransform();
+		$this->posY += 6;
+
+		/*
 		$this->setXY(20,$this->posY);
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 10);
 		$this->SetTextColor(255,255,255);
@@ -139,6 +172,7 @@ class TESTEDONS extends TCPDF {
 		$this->posY += 9;
 		$this->SetTextColor(0,0,0);
 		$this->lineAlt = false;
+		*/
 	}
 
 	public function addLine($f){
@@ -181,7 +215,7 @@ class TESTEDONS extends TCPDF {
 	
 	public function newPage() {
 		$this->AddPage();
-		$this->setCellPaddings(0,0,0,0);
+		$this->setCellPaddings(1,1,1,1);
 		$this->SetTextColor(0,0,0);
 		$this->setXY(0,0);
 	}
@@ -195,9 +229,10 @@ class TESTEDONS extends TCPDF {
 
 $pdf = new TESTEDONS();
 $result = CONN::get()->Execute("
-	SELECT DISTINCT cd_cd_dons_resp
+	SELECT DISTINCT ds_prefixo, cd_cd_dons_resp
 	FROM CON_QS_DONS
-	ORDER BY 1
+	where cd_cd_dons_resp = 1
+	ORDER BY cd_cd_dons_resp
 ");
 
 $pdf->setResult( $result->fields );
