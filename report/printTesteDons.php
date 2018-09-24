@@ -39,6 +39,7 @@ class TESTEDONS extends TCPDF {
 		$this->SetSubject('MinisteriosIASD.com.br');
 		$this->SetKeywords('Dons, Serviço, Ministérios, Habilidades, Servir, Igreja Adventista do Sétimo Dia, IASD');
 		$this->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		$this->SetFooterMargin(10);
 	}
 
 	private function legendaResultado($nota){
@@ -61,11 +62,14 @@ class TESTEDONS extends TCPDF {
 		$this->Cell(40, 3, "Teste de Dons", 0, false, 'L');
 		$this->SetX(46);
 		$this->Cell(125, 3, "www.ministeriosiasd.com.br", 0, false, 'C');
-		$this->SetX(172);
-		$this->Cell(42, 3, "Página ". $this->getAliasNumPage() ." de ". $this->getAliasNbPages(), 0, true, 'R');
+		$this->SetX(170);
+		$this->Cell(42, 3, "Página ". $this->getAliasNumPage() ." de ". $this->getAliasNbPages(), '', 0, 'R');
 	}
-
-	public function headerFirstPage(){
+	
+ 	public function Header() {
+ 		$this->setCellPaddings(0,0,0,0);
+		$this->setXY(0,0);
+		$this->posY = 5;
 		$this->Image("logo.jpg", 5, 5, 38, 20, 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 18);
 		$this->SetFillColor(50,50,50);
@@ -99,87 +103,44 @@ class TESTEDONS extends TCPDF {
 		$this->Cell(125, 7, "", 'TL', 1, 'C', 1, '', 0, false, 'T', 'C');
 		$this->RoundedRect(45, $this->posY, 160, 8, 1, '0110', 'D', $this->stLine);
 		$this->posY += 10;
-	}
-	
- 	public function Header() {
- 		$this->setCellPaddings(0,0,0,0);
-		$this->setXY(0,0);
-		$this->posY = 5;
-		if ($this->page == 1):
-			$this->headerFirstPage();
-		endif;
 		$this->grupoAtual = "";
 	}
 
-	public function addGrupo($f){
-		$this->addHeaderGrupo($f);
-	}
-
 	public function addHeaderGrupo($f){
-		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 12);
+		$this->posY += 2;
+
+		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 10);
 		$this->SetFillColor(240,240,0);
 		$this->SetTextColor(0,0,0);
-		$this->setXY(5, $this->posY);
-		$this->Cell(200, 9, "Selecione a resposta que melhor se encaixa a você para cada questão abaixo:", 0, false, 'C', true, false);
-		$this->posY += 13;
+		$this->setXY(55, $this->posY);
+		$this->Cell(150, 10, "Selecione a resposta que melhor se encaixa a você para cada questão abaixo:", 0, false, 'C', true, false);
+		$this->posY += 10;
 
 		$this->SetFillColor(255,255,255);
 		$this->SetTextColor(0,0,0);
 		if (!empty($f["ds_prefixo"])):
-			$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 12);
-			$this->setXY(5, $this->posY);
-			$this->Cell(160, 7, $f["ds_prefixo"], 'TLRB', 1, 'C', 1, '', 0, false, 'C', 'L');
-			$this->posY += 7;
+			$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 20);
+			$this->setXY(55, $this->posY+15);
+			$this->Cell(150, 30, $f["ds_prefixo"] . (substr($f["ds_prefixo"],-1) == ":" ? "" : "..."), 'TLBR', 1, 'C', 1, '', true, false, 'C', 'M');
 		endif;
+		$this->posY += 7;
 
-		$this->SetFont(PDF_FONT_NAME_MAIN, 'N', 10);
-		$this->StartTransform();
-		$this->Rotate(90);
+		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 9);
 		$opcoes = CONN::get()->Execute("
-			SELECT ds
+			SELECT nr_peso, ds
 			FROM CD_DONS_RESP
 			WHERE cd = ?
 			ORDER BY nr_seq
 		", array($f["cd_cd_dons_resp"]) );
-		$x = 0;
-		$this->posY -= 4;
-		foreach ($opcoes as $op => $fo):
-			$this->setXY($x, $this->posY);
-			$this->Cell(30, 7, $fo["ds"], 'TLRB', 1, 'L', 1, '', 0, false, 'L', 'L');
-			// $this->Text($x, $this->posY, $fo["ds"], false, false, true, 0, 0, '', 0, '', 0, false, 'T', 'T');
-			$this->posY += 7;
-			//$x += 10;
-		endforeach;
-		$this->StopTransform();
-		$this->posY += 6;
-
-		/*
-		$this->setXY(20,$this->posY);
-		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 10);
-		$this->SetTextColor(255,255,255);
-		$this->SetFillColor(0,0,0);
-		$this->SetLineStyle($this->stLine2);
-		$this->setCellPaddings(1,0,1,0);
-		$this->setXY(5, $this->posY);
-		$this->Cell(155, 9, utf8_encode(mb_strtoupper($f["ds_cd_ministerios_gp"])), 'TB', false, 'C', true, false);
-		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 8);
-		$this->setXY(160, $this->posY);
-		$this->Cell(15, 9, "SIM", 'TBL', false, 'C', true, false);
-		$this->setXY(175, $this->posY);
-		$this->Cell(15, 9, "NÃO", 'TBL', false, 'C', true, false);
-		$this->setXY(190, $this->posY);
-		$this->Cell(15, 9, "TALVEZ", 'TBLR', false, 'C', true, false);
-		$this->posY += 9;
-		$this->SetTextColor(0,0,0);
-		$this->lineAlt = false;
-		*/
+		$this->posY += 23;
+		return $opcoes;
 	}
 
-	public function addLine($f){
-		if ($this->grupoAtual != $f["ds_cd_ministerios_gp"]):
+	public function addLine($f, $opcoes = null){
+		if ($this->grupoAtual != $f["cd_cd_dons_resp"]):
 			$this->startTransaction();
 			$start_page = $this->getPage();
-			$this->addHeaderGrupo($f);
+			$opcoes = $this->addHeaderGrupo($f);
 			if  ($this->getNumPages() != $start_page):
 				$this->rollbackTransaction(true);
 				$this->newPage();
@@ -187,30 +148,36 @@ class TESTEDONS extends TCPDF {
 			else:
 				$this->commitTransaction();     
 			endif;
-			$this->grupoAtual = $f["ds_cd_ministerios_gp"];
+
+			$x = 10;
+			foreach ($opcoes as $op => $fo):
+				$this->setXY($x, $this->posY);
+				$this->StartTransform();
+				$this->Rotate(90);
+				$this->Cell(40, 10, $fo["nr_peso"] ." - ". $fo["ds"], 'TLRB', 1, 'L', 1, '', 1, false, 'C', 'M');
+				$this->StopTransform();
+				$x += 10;
+			endforeach;
+			$this->SetFont(PDF_FONT_NAME_MAIN, 'N', 10);
+			$this->posY += 6;
+			$this->grupoAtual = $f["cd_cd_dons_resp"];
 		endif;
-		$this->SetFont(PDF_FONT_NAME_MAIN, 'N', 9);
-		$this->setCellPaddings(1,1,1,1);
-		if ($this->lineAlt):
-			$this->SetFillColor(240,240,240);
-		else:
-			$this->SetFillColor(255,255,255);
-		endif;
-		$this->setXY(5, $this->posY);
-		$this->Cell(15, 7, $f["cd"], 0, false, 'C', true, false, 1);
-		$this->setX(20);
-		$this->Cell(140, 7, utf8_encode($f["ds"]), 0, false, 'L', true, false, 1);
-		$this->SetFillColor(230,230,230);
-		$this->setX(160);
-		$this->Cell(15, 7, "", 'TBL', false, 'C', true);
-		$this->SetFillColor(215,215,215);
-		$this->setX(175);
-		$this->Cell(15, 7, "", 'TBL', false, 'C', true);
-		$this->SetFillColor(200,200,200);
-		$this->setX(190);
-		$this->Cell(15, 7, "", 'TBLR', false, 'C', true, false);
-		$this->posY+=7;
-		$this->lineAlt = !$this->lineAlt;
+		$x = 5;
+		foreach ($opcoes as $op => $fo):
+			$this->setXY($x, $this->posY);
+			$this->Cell(10, 12, "", 'TLBR', 1, 'L', 1, '', 0, false, 'C', 'M');
+			$x += 10;
+		endforeach;
+		$this->MultiCell(150, 12, $f["ds_texto"], 'TLBR', 'L', 1, 1, $x, $this->posY-6, true, 0);
+		$this->posY += 12;
+		// $this->setCellPaddings(1,1,1,1);
+		// if ($this->lineAlt):
+		// 	$this->SetFillColor(240,240,240);
+		// else:
+		// 	$this->SetFillColor(255,255,255);
+		// endif;
+		// $this->lineAlt = !$this->lineAlt;
+		return $opcoes;
 	}
 	
 	public function newPage() {
@@ -229,16 +196,26 @@ class TESTEDONS extends TCPDF {
 
 $pdf = new TESTEDONS();
 $result = CONN::get()->Execute("
-	SELECT DISTINCT ds_prefixo, cd_cd_dons_resp
+	SELECT *
 	FROM CON_QS_DONS
-	where cd_cd_dons_resp = 1
-	ORDER BY cd_cd_dons_resp
+	ORDER BY cd_cd_dons_resp, nr_seq
 ");
 
-$pdf->setResult( $result->fields );
+$pdf->setResult($result->field);
 $pdf->newPage();
+$opcoes = null;
 foreach ( $result as $ra => $f ):
-	$pdf->addGrupo($f);
+	$pdf->startTransaction();
+	$start_page = $pdf->getPage();
+	$opcoes = $pdf->addLine($f, $opcoes);
+	if  ($pdf->getNumPages() != $start_page):
+		$pdf->rollbackTransaction(true);
+		$pdf->newPage();
+		$pdf->addLine($f, $opcoes);
+	else:
+		$pdf->commitTransaction();     
+	endif;
+
 endforeach;
 
 $pdf->download(fRequest("option"));
