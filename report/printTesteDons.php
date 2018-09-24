@@ -110,8 +110,8 @@ class TESTEDONS extends TCPDF {
 		$this->posY += 2;
 
 		$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 10);
-		$this->SetFillColor(240,240,0);
-		$this->SetTextColor(0,0,0);
+		$this->SetFillColor(0,0,0);
+		$this->SetTextColor(255,255,255);
 		$this->setXY(55, $this->posY);
 		$this->Cell(150, 10, "Selecione a resposta que melhor se encaixa a você para cada questão abaixo:", 0, false, 'C', true, false);
 		$this->posY += 10;
@@ -133,6 +133,7 @@ class TESTEDONS extends TCPDF {
 			ORDER BY nr_seq
 		", array($f["cd_cd_dons_resp"]) );
 		$this->posY += 23;
+		$this->lineAlt = false;
 		return $opcoes;
 	}
 
@@ -162,6 +163,12 @@ class TESTEDONS extends TCPDF {
 			$this->posY += 6;
 			$this->grupoAtual = $f["cd_cd_dons_resp"];
 		endif;
+		$this->setCellPaddings(1,1,1,1);
+		if ($this->lineAlt):
+			$this->SetFillColor(240,240,240);
+		else:
+			$this->SetFillColor(255,255,255);
+		endif;
 		$x = 5;
 		foreach ($opcoes as $op => $fo):
 			$this->setXY($x, $this->posY);
@@ -170,13 +177,7 @@ class TESTEDONS extends TCPDF {
 		endforeach;
 		$this->MultiCell(150, 12, utf8_encode($f["ds_texto"]), 'TLBR', 'L', 1, 1, $x, $this->posY-6, true, 0);
 		$this->posY += 12;
-		// $this->setCellPaddings(1,1,1,1);
-		// if ($this->lineAlt):
-		// 	$this->SetFillColor(240,240,240);
-		// else:
-		// 	$this->SetFillColor(255,255,255);
-		// endif;
-		// $this->lineAlt = !$this->lineAlt;
+		$this->lineAlt = !$this->lineAlt;
 		return $opcoes;
 	}
 	
