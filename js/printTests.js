@@ -3,11 +3,11 @@ $(document).ready(function(){
 	updateGraphs();
 
 	$("#divDons").click(function(event){
-		window.location.href = `${jsLIB.rootDir}report/printTesteDons.php?`;
+		window.location.href = `${jsLIB.rootDir}report/printTesteDons.php?timestamp=${(new Date()).getMilliseconds()}`;
 		updateGraphs('D');
 	});
 	$("#divMini").click(function(event){
-		window.location.href = `${jsLIB.rootDir}report/printTesteMinisterios.php?`;
+		window.location.href = `${jsLIB.rootDir}report/printTesteMinisterios.php?timestamp=${(new Date()).getMilliseconds()}`;
 		updateGraphs('M');
 	});
 });
