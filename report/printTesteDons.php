@@ -121,7 +121,7 @@ class TESTEDONS extends TCPDF {
 		if (!empty($f["ds_prefixo"])):
 			$this->SetFont(PDF_FONT_NAME_MAIN, 'B', 20);
 			$this->setXY(55, $this->posY+15);
-			$this->Cell(150, 30, $f["ds_prefixo"] . (substr($f["ds_prefixo"],-1) == ":" ? "" : "..."), 'TLBR', 1, 'C', 1, '', true, false, 'C', 'M');
+			$this->Cell(150, 30, utf8_encode($f["ds_prefixo"]) . (substr($f["ds_prefixo"],-1) == ":" ? "" : "..."), 'TLBR', 1, 'C', 1, '', true, false, 'C', 'M');
 		endif;
 		$this->posY += 7;
 
@@ -154,7 +154,7 @@ class TESTEDONS extends TCPDF {
 				$this->setXY($x, $this->posY);
 				$this->StartTransform();
 				$this->Rotate(90);
-				$this->Cell(40, 10, $fo["nr_peso"] ." - ". $fo["ds"], 'TLRB', 1, 'L', 1, '', 1, false, 'C', 'M');
+				$this->Cell(40, 10, $fo["nr_peso"] ." - ". utf8_encode($fo["ds"]), 'TLRB', 1, 'L', 1, '', 1, false, 'C', 'M');
 				$this->StopTransform();
 				$x += 10;
 			endforeach;
@@ -168,7 +168,7 @@ class TESTEDONS extends TCPDF {
 			$this->Cell(10, 12, "", 'TLBR', 1, 'L', 1, '', 0, false, 'C', 'M');
 			$x += 10;
 		endforeach;
-		$this->MultiCell(150, 12, $f["ds_texto"], 'TLBR', 'L', 1, 1, $x, $this->posY-6, true, 0);
+		$this->MultiCell(150, 12, utf8_encode($f["ds_texto"]), 'TLBR', 'L', 1, 1, $x, $this->posY-6, true, 0);
 		$this->posY += 12;
 		// $this->setCellPaddings(1,1,1,1);
 		// if ($this->lineAlt):
