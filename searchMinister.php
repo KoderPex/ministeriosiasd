@@ -9,7 +9,9 @@
 			"filters" => 
 				array( 
 					array( "value" => "M", "label" => "Minist&eacute;rio" ),
-					array( "value" => "MI", "label" => "Compromisso" )
+					array( "value" => "MI", "label" => "Nota igual" ),
+					array( "value" => "MA", "label" => "Nota maior", "unique" => true ),
+					array( "value" => "ME", "label" => "Nota menor", "unique" => true )
 				)
 		) 
 	);?>
@@ -36,7 +38,7 @@
 							<th>Nome</th>
 							<th>C&oacute;digo</th>
 							<th>Minist&eacute;rio</th>
-							<th>Compromisso</th>
+							<th>Nota</th>
 						</tr>
 					</thead>
 					<tbody/>

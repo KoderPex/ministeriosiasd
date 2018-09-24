@@ -53,7 +53,9 @@
 						array( "value" => "DE", "label" => "Pontua&ccedil;&atilde;o Dons menor", "unique" => true ),
 
 						array( "value" => "M", "label" => "Minist&eacute;rio" ),
-						array( "value" => "MI", "label" => "Compromisso" )
+						array( "value" => "MI", "label" => "Nota Minist&eacute;rio igual" ),
+						array( "value" => "MA", "label" => "Nota Minist&eacute;rio maior", "unique" => true ),
+						array( "value" => "ME", "label" => "Nota Minist&eacute;rio menor", "unique" => true )
 					)
 			)
 		);?>
@@ -126,12 +128,12 @@
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
 							<a href="#" id="btnDonsDlg" class="btn btn-warning btn-xs" style="display:none"><i class="fa fa-plus"></i> Adicionar Teste de Dons</a>
-							<a href="#" id="btnMiniDlg" class="btn btn-warning btn-xs" style="display:none"><i class="fa fa-plus"></i> Adicionar Teste de Ministérios</a>
+							<a href="#" id="btnMiniDlg" class="btn btn-warning btn-xs" style="display:none"><i class="fa fa-plus"></i> Adicionar Teste de Minist&eacute;rios</a>
 						</div>
 					</div>
 				</div>
-			</div>				
-		</div>	
+			</div>
+		</div>
 	</div>
 </div>
 

@@ -55,7 +55,7 @@ class RESULTS extends TCPDF {
 		elseif ( $this->params["tp"] == "M" ):
 			$this->params["title"] = "Resultado do Teste de Ministérios";
 			$this->params["column"] = "Ministério";
-			$this->params["result"] = "Disposição";
+			$this->params["result"] = "Nota";
 		endif;
 		$this->SetTitle($this->params["title"]);
 	}

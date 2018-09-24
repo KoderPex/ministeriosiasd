@@ -212,11 +212,19 @@ function finalizarDons() {
 	finalizarDonsPessoa( $_SESSION['PESSOA']['id'] );
 }
 
-function optionsMinisterios(){
+function optionsMinisteriosCompromisso(){
 	$options = "<option value=\"\"></option>";
 	$options .= "<option value=\"10\">Sim</option>";
 	$options .= "<option value=\"1\">Não</option>";
 	$options .= "<option value=\"5\">Talvez</option>";
+	return $options;
+}
+
+function optionsMinisteriosNota(){
+	$options = "<option value=\"\"></option>";
+	for ($i=1;$i<=10;$i++):
+		$options .= "<option value=\"$i\">$i</option>";
+	endfor;
 	return $options;
 }
 
@@ -227,12 +235,12 @@ function questoesMinisDirect( $parameters ){
   		<thead><tr>
 		      <th>Código</th>
 		      <th>Descrição</th>
-		      <th>Disposição</th>
+		      <th>Nota</th>
 		    </tr>
 		  </thead>
 	<tbody>";
 
-	$options = optionsMinisterios();
+	$options = optionsMinisteriosNota();
 
 	$result = CONN::get()->Execute("
 	SELECT
@@ -296,7 +304,7 @@ function questoesMinisteriosPessoa($pessoaID){
 	$arr = array();
 	$tabindex = 0;
 
-	$options = optionsMinisterios();
+	$options = optionsMinisteriosNota();
 
 	$result = CONN::get()->Execute("
 	SELECT

@@ -33,7 +33,7 @@ if ( $testes["minis"]["nr_rsp"] > 0 ):
 						<tr role="row">
 							<th>&Aacute;rea</th>
 							<th>C&oacute;digo</th>
-							<th>Escolha sua disponsi&ccedil;&atilde;o, apenas para o(s) minist&eacute;rio(s) de seu interesse conforme as &aacute;reas abaixo:</th>
+							<th>Apenas para o(s) minist&eacute;rio(s) de seu interesse conforme as &aacute;reas abaixo, dê a nota de 1 a 10.</th>
 						</tr>
 					</thead>
 					<tbody/>
@@ -46,7 +46,7 @@ if ( $testes["minis"]["nr_rsp"] > 0 ):
 			<a role="button" class="btn btn-success" id="btnNovo" style="display:none"><i class="fa fa-plus"></i>&nbsp;Nova Pessoa</a>
 		</div>
 	</div>
-</div>				
+</div>
 <?php
 endif;
 
@@ -72,7 +72,7 @@ foreach (fExistHistorico( $_SESSION['PESSOA']['id'], 'M' ) as $result):
 						<tr>
 							<th>Ordem</th>
 							<th>Minist&eacute;rio</th>
-							<th>Disposi&ccedil;&atilde;o</th>
+							<th>Nota</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -85,7 +85,7 @@ foreach (fExistHistorico( $_SESSION['PESSOA']['id'], 'M' ) as $result):
 						<td><?php echo utf8_encode($rsitem['ds_item']);?></td>
 						<td><?php echo legendaDisposicao($rsitem['nr_item']);?></td>
 						</tr>
-						<?php				
+						<?php
 					endforeach;
 					?>
 					</tbody>

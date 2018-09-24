@@ -109,7 +109,7 @@ function getQueryByFilterMinisters( $parameters ) {
 			$where .= " (";
 			if ( is_array( $v["vl"] ) ):
 				foreach ($v["vl"] as $value):
-					if ( $key == "MI" ):
+					if ( $key == "CM" ):
 						if ( $value == 10 ):
 							$where .= "8,9,10";
 						elseif ( $value == 4 ):
