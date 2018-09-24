@@ -1,5 +1,6 @@
 <?php
 @include_once("../include/functions.php");
+@require_once("../rules/testes.php");
 responseMethod();
 
 function getQueryByFilterGifts( $parameters ) {
@@ -161,7 +162,7 @@ function getMinisterios( $parameters ) {
 					"nm" => utf8_encode($fields["nm"]),
 					"cd" => $fields["cd"],
 					"mn" => utf8_encode($fields["ds"]),
-					"nt" => $fields["nr_item"]
+					"nt" => legendaDisposicao($fields["nr_item"])
 			);
 		endforeach;
 	endif;
