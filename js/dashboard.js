@@ -22,6 +22,7 @@ function mapPrintResults(){
 			closeByKeyboard: false,
 			buttons: [
 				{
+					id: 'button-print',
 					icon: 'glyphicon glyphicon-print',
 					label: 'Imprimir',
 					cssClass: 'btn-success',
@@ -40,8 +41,15 @@ function mapPrintResults(){
 				}
 			],
 			onshown: function(dialog) {
-				$("#oEmbedPrint").css("height", (window.innerHeight-200)+"px")
-            },
+				var ua = navigator.userAgent.toLowerCase(); 
+				if (ua.indexOf('safari') != -1) { 
+					if (ua.indexOf('chrome') > -1) {
+					} else {
+						dialog.getButton('button-print').disable();
+					}
+				}
+				$("#oEmbedPrint").css("height", (window.innerHeight-200)+"px");
+      },
 		});
 	});
 }
